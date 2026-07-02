@@ -12,6 +12,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- Jira 상태 전환 기준에 PR 생성 전 push 완료 상태는 `진행 중` 유지 원칙을 추가
+- RF-18 feature 브랜치를 GitHub 원격 저장소에 push
 - RF-18 완료: Git 저장소 초기화, GitHub Flow feature 브랜치 생성, `backend/` Spring Boot 3.5.16 Gradle 프로젝트 기본 구조 생성, `.\backend\gradlew.bat test` 통과
 - OpenAPI 문서화 기준을 파일 선작성 방식에서 코드 우선 방식으로 정리
 - `AGENTS.md`와 Memory Bank의 브랜치 전략 표현을 GitHub Flow 기준으로 재정리
@@ -40,7 +42,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 열린 이슈
 
-- 원격 GitHub 저장소는 아직 연결되지 않았다.
+- RF-18 GitHub PR은 아직 생성되지 않았다.
 - 프론트엔드 방식은 아직 확정되지 않았다. 후보는 HTML/CSS/JS 또는 React이다.
 - 대기열 처리 P1 티켓은 아직 Jira에 실제 생성하지 않았다.
 
