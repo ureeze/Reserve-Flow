@@ -12,6 +12,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- Slack 공유 시점을 PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 기준으로 규칙화
 - RF-18 GitHub PR 생성: https://github.com/ureeze/Reserve-Flow/pull/1
 - Jira RF-18에 PR 링크와 검증 결과를 댓글로 남기고 상태를 `검토 중`으로 전환
 - Jira 상태 전환 기준에 PR 생성 전 push 완료 상태는 `진행 중` 유지 원칙을 추가

@@ -41,6 +41,7 @@
 
 ## Done
 
+- [T-021] Slack 공유 시점과 메시지 포함 항목 규칙화 (done: 2026-07-02)
 - [T-020] RF-18 GitHub PR 생성과 Jira 검토 중 상태 반영 (done: 2026-07-02)
 - [T-019] Jira 상태 전환 기준 보강과 RF-18 원격 push 상태 반영 (done: 2026-07-02)
 - [T-001] Spring Boot 프로젝트 기본 구조 생성 (Jira: RF-18, done: 2026-07-02)
