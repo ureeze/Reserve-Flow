@@ -12,6 +12,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 시 실행계획에 Slack 공유 여부를 반드시 포함하도록 규칙화
 - PR merge는 사용자가 GitHub UI에서 직접 수행하고, merge 이후 Memory Bank 단독 커밋/push는 하지 않는 운영 원칙을 문서화
 - Slack 공유 시점을 PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 기준으로 규칙화
 - RF-18 GitHub PR 생성: https://github.com/ureeze/Reserve-Flow/pull/1
