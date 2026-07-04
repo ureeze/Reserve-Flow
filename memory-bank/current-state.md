@@ -12,6 +12,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- PR merge는 사용자가 GitHub UI에서 직접 수행하고, merge 이후 Memory Bank 단독 커밋/push는 하지 않는 운영 원칙을 문서화
 - Slack 공유 시점을 PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 기준으로 규칙화
 - RF-18 GitHub PR 생성: https://github.com/ureeze/Reserve-Flow/pull/1
 - Jira RF-18에 PR 링크와 검증 결과를 댓글로 남기고 상태를 `검토 중`으로 전환
@@ -45,7 +46,6 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 열린 이슈
 
-- RF-18 GitHub PR은 검토 중이다.
 - 프론트엔드 방식은 아직 확정되지 않았다. 후보는 HTML/CSS/JS 또는 React이다.
 - 대기열 처리 P1 티켓은 아직 Jira에 실제 생성하지 않았다.
 
