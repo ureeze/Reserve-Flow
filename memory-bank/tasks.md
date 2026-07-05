@@ -41,7 +41,7 @@
 
 ## Done
 
-- [T-024] 주요 상태 변화 시 Slack 공유를 기본 수행하도록 운영 규칙 변경 (done: 2026-07-05)
+- [T-024] 주요 상태 변화 시 Slack 공유를 기본 수행하도록 운영 규칙 변경, 기본 채널 `#reserve-flow-dev`, `#reserve-flow-deploy`, `#reserve-flow-alerts` 생성 및 용도 매핑 (done: 2026-07-05)
 - [T-023] 주요 상태 변화 시 Slack 공유 여부를 실행계획에 포함하도록 규칙화 (done: 2026-07-03)
 - [T-022] PR merge UI 수행과 post-merge Memory Bank 단독 커밋 금지 원칙 문서화 (done: 2026-07-03)
 - [T-021] Slack 공유 시점과 메시지 포함 항목 규칙화 (done: 2026-07-02)
