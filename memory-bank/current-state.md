@@ -12,6 +12,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경
 - RF-19 완료: PostgreSQL JDBC Driver, Spring Data JPA, Flyway 의존성 추가
 - RF-19 완료: 환경변수로 덮어쓸 수 있는 datasource/Flyway/JPA 설정 추가
 - RF-19 완료: 로컬 PostgreSQL 실행용 `docker-compose.yml` 추가
