@@ -8,7 +8,6 @@
 
 ## Next
 
-- [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20)
 - [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
 - [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
@@ -39,8 +38,21 @@
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
 
+### T-002 / RF-19
+
+- Spring Data JPA 의존성이 추가되어 있다.
+- PostgreSQL JDBC Driver 의존성이 추가되어 있다.
+- Flyway 의존성과 PostgreSQL Flyway 지원 모듈이 추가되어 있다.
+- datasource 설정은 환경변수로 덮어쓸 수 있으며 로컬 기본값을 가진다.
+- 운영 기준 Hibernate `ddl-auto`는 `validate`로 설정되어 있다.
+- Flyway Migration 기본 경로 `src/main/resources/db/migration`이 준비되어 있다.
+- 로컬 PostgreSQL 실행 방법이 준비되어 있다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
+- [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19, done: 2026-07-05, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 상태 변경/Slack 공유: 미수행)
 - [T-023] 주요 상태 변화 시 Slack 공유 여부를 실행계획에 포함하도록 규칙화 (done: 2026-07-03)
 - [T-022] PR merge UI 수행과 post-merge Memory Bank 단독 커밋 금지 원칙 문서화 (done: 2026-07-03)
 - [T-021] Slack 공유 시점과 메시지 포함 항목 규칙화 (done: 2026-07-02)
