@@ -16,6 +16,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 - RF-19 완료: 환경변수로 덮어쓸 수 있는 datasource/Flyway/JPA 설정 추가
 - RF-19 완료: 로컬 PostgreSQL 실행용 `docker-compose.yml` 추가
 - RF-19 완료: Flyway migration 디렉터리 준비, 테스트 profile context load 설정 추가, `.\backend\gradlew.bat test` 통과
+- 주요 상태 변화 시 Slack 공유를 기본 수행하도록 운영 규칙 변경, 기본 채널 `#reserve-flow-dev`, `#reserve-flow-deploy`, `#reserve-flow-alerts` 생성 및 용도 매핑
 - PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 시 실행계획에 Slack 공유 여부를 반드시 포함하도록 규칙화
 - PR merge는 사용자가 GitHub UI에서 직접 수행하고, merge 이후 Memory Bank 단독 커밋/push는 하지 않는 운영 원칙을 문서화
 - Slack 공유 시점을 PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 기준으로 규칙화
