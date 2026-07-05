@@ -4,7 +4,7 @@
 
 ReserveFlow MVP 개발 착수 준비 완료.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조가 생성되었고, 다음 단계는 PostgreSQL 연결과 Flyway 설정이다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조와 PostgreSQL/Flyway 연결 기반이 준비되었고, 다음 단계는 Redis 연결과 기본 설정이다.
 
 ## 현재 진행 중 작업
 
@@ -12,6 +12,10 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- RF-19 완료: PostgreSQL JDBC Driver, Spring Data JPA, Flyway 의존성 추가
+- RF-19 완료: 환경변수로 덮어쓸 수 있는 datasource/Flyway/JPA 설정 추가
+- RF-19 완료: 로컬 PostgreSQL 실행용 `docker-compose.yml` 추가
+- RF-19 완료: Flyway migration 디렉터리 준비, 테스트 profile context load 설정 추가, `.\backend\gradlew.bat test` 통과
 - 주요 상태 변화 시 Slack 공유를 기본 수행하도록 운영 규칙 변경, 기본 채널 `#reserve-flow-dev`, `#reserve-flow-deploy`, `#reserve-flow-alerts` 생성 및 용도 매핑
 - PR 생성, PR merge/완료, 배포, 블로커, 주요 변경, 긴급 수정 시 실행계획에 Slack 공유 여부를 반드시 포함하도록 규칙화
 - PR merge는 사용자가 GitHub UI에서 직접 수행하고, merge 이후 Memory Bank 단독 커밋/push는 하지 않는 운영 원칙을 문서화
@@ -53,11 +57,11 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 다음 작업
 
-1. [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19)
-2. [T-003] Redis 연결과 기본 설정 (Jira: RF-20)
-3. [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
-4. [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
-5. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
+1. [T-003] Redis 연결과 기본 설정 (Jira: RF-20)
+2. [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
+3. [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
+4. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
+5. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
 
 ## 관련 문서
 
