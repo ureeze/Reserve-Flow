@@ -16,5 +16,19 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:8.2-alpine
+    container_name: reserveflow-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - reserveflow-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 volumes:
   reserveflow-postgres-data:
+  reserveflow-redis-data:

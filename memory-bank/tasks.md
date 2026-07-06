@@ -8,7 +8,6 @@
 
 ## Next
 
-- [T-003] Redis 연결과 기본 설정 (Jira: RF-20)
 - [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
 - [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
 - [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
@@ -50,8 +49,18 @@
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
 
+### T-003 / RF-20
+
+- Spring Data Redis 의존성이 추가되어 있다.
+- Redis 연결 설정은 환경변수로 덮어쓸 수 있으며 로컬 기본값을 가진다.
+- 로컬 Redis 실행 방법이 `docker-compose.yml`에 준비되어 있다.
+- 테스트 profile에서 애플리케이션 context load가 Redis 설정 때문에 실패하지 않는다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
+- [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
 - [T-025] Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경 (done: 2026-07-05)
 - [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19, done: 2026-07-05, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 상태 변경/Slack 공유: 미수행)
 - [T-024] 주요 상태 변화 시 Slack 공유를 기본 수행하도록 운영 규칙 변경, 기본 채널 `#reserve-flow-dev`, `#reserve-flow-deploy`, `#reserve-flow-alerts` 생성 및 용도 매핑 (done: 2026-07-05)
