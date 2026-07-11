@@ -9,8 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -48,7 +48,7 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 이미 가입된 인증 식별자로 다시 회원가입하면 중복 가입을 거부하는지 검증한다.
+	 * 이미 가입된 인증 식별자로 다시 회원가입하면 중복 가입을 거절하는지 검증한다.
 	 */
 	@Test
 	void signupRejectsDuplicateAuthSubject() throws Exception {
@@ -92,7 +92,7 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 가입된 회원이라도 비밀번호가 틀리면 로그인을 거부하고 401을 반환하는지 검증한다.
+	 * 가입된 회원이라도 비밀번호가 다르면 로그인을 거절하고 401을 반환하는지 검증한다.
 	 */
 	@Test
 	void loginRejectsInvalidPassword() throws Exception {
@@ -131,7 +131,7 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 보호 API는 Bearer access token 없이 호출할 수 없고 401을 반환하는지 검증한다.
+	 * 보호 API를 Bearer access token 없이 호출할 수 없고 401을 반환하는지 검증한다.
 	 */
 	@Test
 	void protectedEndpointRequiresBearerToken() throws Exception {
