@@ -21,6 +21,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 - RF-21 완료: 인증 코드를 `controller`, `service`, `dto`, `config`, `entity`, `repository` 계층 패키지로 정리
 - RF-21 완료: Lombok을 도입해 생성자 주입과 JPA 기본 생성자 반복 코드를 정리
 - RF-21 완료: 인증 성공/실패, 중복 가입, 토큰 재발급, 보호 API 접근 테스트 추가, `.\backend\gradlew.bat test` 통과
+- RF-21 완료: 로컬 PostgreSQL/Redis 기반 `.\backend\gradlew.bat bootRun` 실행과 실제 회원가입, 로그인, 현재 회원 조회, refresh token 재발급 API 호출 검증 완료
+- RF-21 완료: 로컬 PostgreSQL Docker 이미지를 `postgres:17-alpine`으로 정리해 현재 볼륨 마운트 경로와 호환되도록 수정
 - RF-21 Jira 상태를 `진행 중`으로 전환
 - Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경
 - RF-20 완료: Spring Data Redis 의존성 추가

@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:18.4
+    image: postgres:17-alpine
     container_name: reserveflow-postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-reserveflow}
