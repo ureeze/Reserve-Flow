@@ -54,7 +54,7 @@
 - Bearer Token 기반 JWT
 - 회원가입, 로그인, 토큰 발급/갱신 API
 - 예약 관련 MVP API의 JWT 인증 필터와 사용자 식별
-- JWT subject는 `users.auth_subject`와 연결
+- JWT subject는 `members.auth_subject`와 연결
 - 클라이언트가 전달한 `userId`는 신뢰하지 않음
 
 ## Frontend

@@ -22,3 +22,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+reserveflow:
+  jwt:
+    issuer: ${JWT_ISSUER:reserveflow}
+    secret: ${JWT_SECRET:reserveflow-local-development-secret-key-change-me}
+    access-token-ttl: ${JWT_ACCESS_TOKEN_TTL:15m}
+    refresh-token-ttl: ${JWT_REFRESH_TOKEN_TTL:7d}

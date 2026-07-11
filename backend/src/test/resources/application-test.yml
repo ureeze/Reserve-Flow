@@ -19,3 +19,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+
+reserveflow:
+  jwt:
+    issuer: reserveflow-test
+    secret: reserveflow-test-secret-key-for-jwt-signing-change-me
+    access-token-ttl: 15m
+    refresh-token-ttl: 7d
