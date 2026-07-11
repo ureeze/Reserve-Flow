@@ -75,7 +75,7 @@
 
 ## Done
 
-- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `검토 중` 전환 완료)
+- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Flyway `12.6.0` 명시와 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `검토 중` 전환 완료)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
 - [T-025] Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경 (done: 2026-07-05)
 - [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19, done: 2026-07-05, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 상태 변경/Slack 공유: 미수행)

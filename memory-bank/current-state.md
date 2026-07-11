@@ -23,6 +23,7 @@ ReserveFlow MVP 개발 착수 준비 완료.
 - RF-21 완료: 인증 성공/실패, 중복 가입, 토큰 재발급, 보호 API 접근 테스트 추가, `.\backend\gradlew.bat test` 통과
 - RF-21 완료: 로컬 PostgreSQL/Redis 기반 `.\backend\gradlew.bat bootRun` 실행과 실제 회원가입, 로그인, 현재 회원 조회, refresh token 재발급 API 호출 검증 완료
 - RF-21 완료: 로컬 PostgreSQL Docker 이미지를 `postgres:18.4`로 유지하고 PostgreSQL 18 기준 볼륨 경로(`/var/lib/postgresql`)와 전용 volume으로 정리
+- RF-21 완료: Flyway를 `12.6.0`으로 명시해 PostgreSQL 18.4 upgrade 권장 경고 제거, `.\backend\gradlew.bat test`와 `bootRun`/실제 API 호출 재검증 완료
 - RF-21 Jira 상태를 `진행 중`으로 전환
 - Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경
 - RF-20 완료: Spring Data Redis 의존성 추가
