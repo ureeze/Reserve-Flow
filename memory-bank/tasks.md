@@ -8,7 +8,6 @@
 
 ## Next
 
-- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
 - [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
 - [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
@@ -58,8 +57,25 @@
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
 
+### T-004 / RF-21
+
+- Spring Security 의존성과 JWT 검증 기반이 추가되어 있다.
+- `members` 테이블과 Member Entity/Repository가 준비되어 있다.
+- 회원 내부 PK는 `Long id`, API/JWT 노출 식별자는 `UUID publicId`로 분리되어 있다.
+- 회원가입 API가 비밀번호를 BCrypt로 해시 저장하고 회원 생성 결과를 반환한다.
+- 로그인 API가 회원 인증 후 access/refresh token을 발급한다.
+- refresh token으로 토큰 재발급이 가능하다.
+- Bearer Token 기반으로 보호 API에서 현재 회원을 식별할 수 있다.
+- 인증이 없거나 유효하지 않으면 401을 반환한다.
+- JWT, 비밀번호, 인증 헤더를 로그에 남기지 않는다.
+- 인증 코드는 `controller`, `service`, `dto`, `config`, `entity`, `repository` 계층 패키지로 정리되어 있다.
+- 반복 생성자 코드는 Lombok으로 정리되어 있다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
+- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Spring Boot `4.1.0` BOM 기준 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬과 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `검토 중` 전환 완료)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
 - [T-025] Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경 (done: 2026-07-05)
 - [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19, done: 2026-07-05, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 상태 변경/Slack 공유: 미수행)

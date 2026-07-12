@@ -4,7 +4,7 @@
 
 ReserveFlow MVP 개발 착수 준비 완료.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정이 준비되었다. 다음 단계는 JWT 인증 구현이다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현이 준비되었다. 다음 단계는 공통 오류 응답과 Error Catalog 적용이다.
 
 ## 현재 진행 중 작업
 
@@ -12,6 +12,21 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 최근 완료 작업
 
+- RF-21 완료: Spring Security와 OAuth2 Resource Server 기반 JWT 의존성 추가
+- RF-21 완료: `members` 테이블 Flyway migration, Member Entity, Repository 추가
+- RF-21 완료: 회원 내부 PK는 `Long id`, API/JWT 노출 식별자는 `UUID publicId`로 분리
+- RF-21 완료: 회원가입, 로그인, refresh token 재발급, 현재 회원 조회 API 추가
+- RF-21 완료: 회원가입은 회원 생성만 수행하고, access/refresh token은 로그인 성공 시 발급하도록 분리
+- RF-21 완료: BCrypt 비밀번호 해시, HS256 JWT access/refresh token 발급과 Bearer 인증 설정 추가
+- RF-21 완료: 인증 코드를 `controller`, `service`, `dto`, `config`, `entity`, `repository` 계층 패키지로 정리
+- RF-21 완료: Lombok을 도입해 생성자 주입과 JPA 기본 생성자 반복 코드를 정리
+- RF-21 완료: 인증 성공/실패, 중복 가입, 토큰 재발급, 보호 API 접근 테스트 추가, `.\backend\gradlew.bat test` 통과
+- RF-21 완료: 로컬 PostgreSQL/Redis 기반 `.\backend\gradlew.bat bootRun` 실행과 실제 회원가입, 로그인, 현재 회원 조회, refresh token 재발급 API 호출 검증 완료
+- RF-21 완료: 로컬 PostgreSQL Docker 이미지를 `postgres:18.4`로 유지하고 PostgreSQL 18 기준 볼륨 경로(`/var/lib/postgresql`)와 전용 volume으로 정리
+- RF-21 완료: Spring Boot `4.1.0` BOM 기준으로 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬
+- RF-21 완료: Boot 4 기준 `spring-boot-starter-flyway`, `spring-boot-starter-webmvc-test` 추가와 Hibernate dialect 자동 감지 설정 정리
+- RF-21 완료: Spring Boot `4.1.0`, PostgreSQL `18.4`, Redis `8.2-alpine` 조합으로 `.\backend\gradlew.bat test`와 `bootRun`/실제 API 호출 재검증 완료
+- RF-21 Jira 상태를 `진행 중`으로 전환
 - Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경
 - RF-20 완료: Spring Data Redis 의존성 추가
 - RF-20 완료: 환경변수로 덮어쓸 수 있는 Redis 연결 설정 추가
@@ -63,10 +78,9 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 다음 작업
 
-1. [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21)
-2. [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
-3. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
-4. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+1. [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
+2. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
+3. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
 
 ## 관련 문서
 
