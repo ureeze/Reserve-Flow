@@ -1,9 +1,11 @@
 package com.reserveflow.auth.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.reserveflow.common.error.RestAccessDeniedHandler;
+import com.reserveflow.common.error.RestAuthenticationEntryPoint;
+import java.nio.charset.StandardCharsets;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,11 +35,15 @@ class SecurityConfig {
 	/**
 	 * HTTP 보안 정책을 구성한다.
 	 *
-	 * 서버 세션을 사용하지 않는 stateless API로 동작시키고,
+	 * 서버 세션을 사용하지 않는 stateless API로 동작시키고
 	 * JWT Resource Server 방식으로 Bearer token을 검증한다.
 	 */
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain securityFilterChain(
+			HttpSecurity http,
+			RestAuthenticationEntryPoint authenticationEntryPoint,
+			RestAccessDeniedHandler accessDeniedHandler
+	) throws Exception {
 		return http
 				.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -49,9 +55,16 @@ class SecurityConfig {
 						).permitAll()
 						.anyRequest().authenticated()
 				)
+				.exceptionHandling(exception -> exception
+						.authenticationEntryPoint(authenticationEntryPoint)
+						.accessDeniedHandler(accessDeniedHandler)
+				)
 				.httpBasic(httpBasic -> httpBasic.disable())
 				.formLogin(formLogin -> formLogin.disable())
-				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+				.oauth2ResourceServer(oauth2 -> oauth2
+						.authenticationEntryPoint(authenticationEntryPoint)
+						.jwt(Customizer.withDefaults())
+				)
 				.build();
 	}
 
@@ -64,7 +77,7 @@ class SecurityConfig {
 	}
 
 	/**
-	 * JWT 서명과 검증에 사용할 대칭 키를 생성한다.
+	 * JWT 서명과 검증에 사용할 대칭키를 생성한다.
 	 */
 	@Bean
 	SecretKey jwtSecretKey(JwtProperties jwtProperties) {

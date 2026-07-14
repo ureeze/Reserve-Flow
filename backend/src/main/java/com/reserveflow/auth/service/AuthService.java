@@ -6,17 +6,17 @@ import com.reserveflow.auth.dto.RefreshTokenRequest;
 import com.reserveflow.auth.dto.SignupRequest;
 import com.reserveflow.auth.dto.SignupResponse;
 import com.reserveflow.auth.dto.TokenResponse;
+import com.reserveflow.common.error.ApiException;
+import com.reserveflow.common.error.ErrorCode;
 import com.reserveflow.member.entity.Member;
 import com.reserveflow.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 /**
  * 인증 도메인의 주요 비즈니스 로직.
@@ -42,7 +42,7 @@ public class AuthService {
 	@Transactional
 	public SignupResponse signup(SignupRequest request) {
 		if (memberRepository.existsByAuthSubject(request.authSubject())) {
-			throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 가입된 회원입니다.");
+			throw new ApiException(ErrorCode.AUTH_DUPLICATE_SUBJECT);
 		}
 
 		Member member = new Member(
@@ -64,10 +64,10 @@ public class AuthService {
 	@Transactional(readOnly = true)
 	public TokenResponse login(LoginRequest request) {
 		Member member = memberRepository.findByAuthSubjectAndStatus(request.authSubject(), "ACTIVE")
-				.orElseThrow(() -> unauthorized());
+				.orElseThrow(() -> new ApiException(ErrorCode.AUTH_REQUIRED));
 
 		if (!passwordEncoder.matches(request.password(), member.getPasswordHash())) {
-			throw unauthorized();
+			throw new ApiException(ErrorCode.AUTH_REQUIRED);
 		}
 
 		return jwtTokenService.issue(member);
@@ -84,15 +84,15 @@ public class AuthService {
 		try {
 			jwt = jwtDecoder.decode(request.refreshToken());
 		} catch (JwtException exception) {
-			throw unauthorized();
+			throw invalidToken();
 		}
 
 		if (!"refresh".equals(jwt.getClaimAsString("token_type"))) {
-			throw unauthorized();
+			throw invalidToken();
 		}
 
 		Member member = memberRepository.findByAuthSubjectAndStatus(jwt.getSubject(), "ACTIVE")
-				.orElseThrow(() -> unauthorized());
+				.orElseThrow(this::invalidToken);
 
 		return jwtTokenService.issue(member);
 	}
@@ -105,15 +105,15 @@ public class AuthService {
 	@Transactional(readOnly = true)
 	public CurrentMemberResponse currentMember(String authSubject) {
 		Member member = memberRepository.findByAuthSubjectAndStatus(authSubject, "ACTIVE")
-				.orElseThrow(() -> unauthorized());
+				.orElseThrow(this::invalidToken);
 
 		return new CurrentMemberResponse(member.getPublicId(), member.getAuthSubject(), member.getDisplayName(), member.getStatus());
 	}
 
 	/**
-	 * 인증 실패 응답을 일관되게 생성한다.
+	 * 만료되었거나 유효하지 않은 인증 정보 응답을 생성한다.
 	 */
-	private ResponseStatusException unauthorized() {
-		return new ResponseStatusException(HttpStatus.UNAUTHORIZED, "인증 정보가 유효하지 않습니다.");
+	private ApiException invalidToken() {
+		return new ApiException(ErrorCode.AUTH_INVALID);
 	}
 }

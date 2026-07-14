@@ -48,7 +48,7 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 이미 가입된 인증 식별자로 다시 회원가입하면 중복 가입을 거절하는지 검증한다.
+	 * 이미 가입된 인증 식별자로 다시 회원가입하면 409 공통 오류 응답을 반환하는지 검증한다.
 	 */
 	@Test
 	void signupRejectsDuplicateAuthSubject() throws Exception {
@@ -67,8 +67,13 @@ class AuthControllerTests {
 
 		mockMvc.perform(post("/api/v1/auth/signup")
 						.contentType(MediaType.APPLICATION_JSON)
+						.header("X-Request-Id", "duplicate-request-id")
 						.content(body))
-				.andExpect(status().isConflict());
+				.andExpect(status().isConflict())
+				.andExpect(jsonPath("$.error.code").value("AUTH_004"))
+				.andExpect(jsonPath("$.error.message").value("이미 가입된 인증 식별자입니다."))
+				.andExpect(jsonPath("$.error.requestId").value("duplicate-request-id"))
+				.andExpect(jsonPath("$.error.timestamp").value(not(blankOrNullString())));
 	}
 
 	/**
@@ -92,7 +97,7 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 가입된 회원이라도 비밀번호가 다르면 로그인을 거절하고 401을 반환하는지 검증한다.
+	 * 가입된 회원이라도 비밀번호가 다르면 401 공통 오류 응답을 반환하는지 검증한다.
 	 */
 	@Test
 	void loginRejectsInvalidPassword() throws Exception {
@@ -106,7 +111,11 @@ class AuthControllerTests {
 								  "password": "wrong-password"
 								}
 								"""))
-				.andExpect(status().isUnauthorized());
+				.andExpect(status().isUnauthorized())
+				.andExpect(jsonPath("$.error.code").value("AUTH_001"))
+				.andExpect(jsonPath("$.error.message").value("인증이 필요합니다."))
+				.andExpect(jsonPath("$.error.requestId").value(not(blankOrNullString())))
+				.andExpect(jsonPath("$.error.timestamp").value(not(blankOrNullString())));
 	}
 
 	/**
@@ -131,12 +140,49 @@ class AuthControllerTests {
 	}
 
 	/**
-	 * 보호 API를 Bearer access token 없이 호출할 수 없고 401을 반환하는지 검증한다.
+	 * 유효하지 않은 refresh token을 제출하면 401 AUTH_002 공통 오류 응답을 반환하는지 검증한다.
+	 */
+	@Test
+	void refreshRejectsInvalidRefreshToken() throws Exception {
+		mockMvc.perform(post("/api/v1/auth/token/refresh")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{
+								  "refreshToken": "invalid-refresh-token"
+								}
+								"""))
+				.andExpect(status().isUnauthorized())
+				.andExpect(jsonPath("$.error.code").value("AUTH_002"))
+				.andExpect(jsonPath("$.error.message").value("인증 정보가 만료되었거나 유효하지 않습니다."))
+				.andExpect(jsonPath("$.error.requestId").value(not(blankOrNullString())))
+				.andExpect(jsonPath("$.error.timestamp").value(not(blankOrNullString())));
+	}
+
+	/**
+	 * 보호 API를 Bearer access token 없이 호출할 수 없고 401 공통 오류 응답을 반환하는지 검증한다.
 	 */
 	@Test
 	void protectedEndpointRequiresBearerToken() throws Exception {
 		mockMvc.perform(get("/api/v1/auth/me"))
-				.andExpect(status().isUnauthorized());
+				.andExpect(status().isUnauthorized())
+				.andExpect(jsonPath("$.error.code").value("AUTH_001"))
+				.andExpect(jsonPath("$.error.message").value("인증이 필요합니다."))
+				.andExpect(jsonPath("$.error.requestId").value(not(blankOrNullString())))
+				.andExpect(jsonPath("$.error.timestamp").value(not(blankOrNullString())));
+	}
+
+	/**
+	 * 유효하지 않은 Bearer access token으로 보호 API를 호출하면 401 AUTH_002 공통 오류 응답을 반환하는지 검증한다.
+	 */
+	@Test
+	void protectedEndpointRejectsInvalidBearerToken() throws Exception {
+		mockMvc.perform(get("/api/v1/auth/me")
+						.header("Authorization", "Bearer invalid-access-token"))
+				.andExpect(status().isUnauthorized())
+				.andExpect(jsonPath("$.error.code").value("AUTH_002"))
+				.andExpect(jsonPath("$.error.message").value("인증 정보가 만료되었거나 유효하지 않습니다."))
+				.andExpect(jsonPath("$.error.requestId").value(not(blankOrNullString())))
+				.andExpect(jsonPath("$.error.timestamp").value(not(blankOrNullString())));
 	}
 
 	/**
