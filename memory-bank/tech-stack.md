@@ -4,7 +4,7 @@
 
 - 위치: `backend/`
 - Java 21
-- Spring Boot 3.x
+- Spring Boot 4.1.0
 - Spring Web
 - Spring Validation
 - Spring Security

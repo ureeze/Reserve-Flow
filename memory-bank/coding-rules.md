@@ -9,7 +9,7 @@
 
 ## Java / Spring
 
-- Java 21과 Spring Boot 3.x를 기준으로 한다.
+- Java 21과 Spring Boot 4.1.0을 기준으로 한다.
 - Controller, Service, Repository 책임을 분리한다.
 - API DTO와 Entity를 직접 공유하지 않는다.
 - 상태값은 Java enum으로 표현하되 DB CHECK 값과 반드시 일치시킨다.

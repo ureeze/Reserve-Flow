@@ -8,7 +8,6 @@
 
 ## Next
 
-- [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
 - [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
@@ -17,7 +16,7 @@
 
 ## In Progress
 
-- 없음
+- [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
 
 ## Blocked
 
@@ -27,7 +26,7 @@
 
 ### T-001 / RF-18
 
-- Gradle 기반 Spring Boot 3.x 프로젝트가 생성되어 있다.
+- Gradle 기반 Spring Boot 4.1.0 프로젝트가 준비되어 있다.
 - Java 21 기준으로 빌드 설정이 되어 있다.
 - `backend/gradlew`와 `backend/gradlew.bat` 또는 동등한 Gradle 실행 방법이 준비되어 있다.
 - 기본 애플리케이션 클래스와 context load 테스트가 있다.
@@ -73,9 +72,23 @@
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
 
+### T-005 / RF-22
+
+- 공통 오류 응답 DTO가 정의되어 있다.
+- 오류 응답은 API 명세서 형식인 `error.code`, `error.message`, `error.details`, `error.requestId`, `error.timestamp`를 사용한다.
+- 주요 예외가 Error Catalog 코드로 매핑되어 있다.
+- Validation 오류는 `400 VALIDATION_004` 공통 형식으로 반환된다.
+- 인증 필요 또는 로그인 실패는 `401 AUTH_001` 공통 형식으로 반환된다.
+- 토큰 만료 또는 유효하지 않은 토큰은 `401 AUTH_002` 공통 형식으로 반환된다.
+- 리소스 없음은 `404` 계열 Error Catalog 코드의 공통 형식으로 반환될 수 있다.
+- 중복 가입 같은 충돌은 `409 AUTH_004` 공통 형식으로 반환된다.
+- 오류 응답에 stack trace, SQL, 내부 인프라 정보가 노출되지 않는다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
-- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Spring Boot `4.1.0` BOM 기준 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬과 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `검토 중` 전환 완료)
+- [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Spring Boot `4.1.0` BOM 기준 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬과 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
 - [T-025] Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경 (done: 2026-07-05)
 - [T-002] PostgreSQL 연결과 Flyway 설정 (Jira: RF-19, done: 2026-07-05, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 상태 변경/Slack 공유: 미수행)

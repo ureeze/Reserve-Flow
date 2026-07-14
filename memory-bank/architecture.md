@@ -2,7 +2,7 @@
 
 ## 아키텍처 기준
 
-- Backend: Java 21, Spring Boot 3.x
+- Backend: Java 21, Spring Boot 4.1.0
 - 구조: Modular Monolith 우선
 - 비동기 처리: Transactional Outbox + Kafka 이벤트 + Worker
 - 최종 정합성 기준: PostgreSQL

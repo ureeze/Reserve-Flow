@@ -4,11 +4,11 @@
 
 ReserveFlow MVP 개발 착수 준비 완료.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현이 준비되었다. 다음 단계는 공통 오류 응답과 Error Catalog 적용이다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현이 준비되었다. 현재 단계는 공통 오류 응답과 Error Catalog 적용이다.
 
 ## 현재 진행 중 작업
 
-- 없음
+- RF-22 공통 오류 응답과 Error Catalog 적용
 
 ## 최근 완료 작업
 
@@ -26,7 +26,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 - RF-21 완료: Spring Boot `4.1.0` BOM 기준으로 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬
 - RF-21 완료: Boot 4 기준 `spring-boot-starter-flyway`, `spring-boot-starter-webmvc-test` 추가와 Hibernate dialect 자동 감지 설정 정리
 - RF-21 완료: Spring Boot `4.1.0`, PostgreSQL `18.4`, Redis `8.2-alpine` 조합으로 `.\backend\gradlew.bat test`와 `bootRun`/실제 API 호출 재검증 완료
-- RF-21 Jira 상태를 `진행 중`으로 전환
+- RF-22 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-22-error-catalog` 브랜치 생성
+- RF-21 완료: PR #9 squash merge 후 Jira 상태를 `완료`로 전환
 - Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경
 - RF-20 완료: Spring Data Redis 의존성 추가
 - RF-20 완료: 환경변수로 덮어쓸 수 있는 Redis 연결 설정 추가
@@ -78,9 +79,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 다음 작업
 
-1. [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
-2. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
-3. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+1. [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
+2. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
 
 ## 관련 문서
 
