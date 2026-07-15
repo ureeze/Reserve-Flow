@@ -8,7 +8,6 @@
 
 ## Next
 
-- [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
@@ -16,7 +15,7 @@
 
 ## In Progress
 
-- [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22)
+- [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
 
 ## Blocked
 
@@ -86,8 +85,22 @@
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
 
+### T-006 / RF-23
+
+- ERD/DB 설계서 기준 `outbox_events` 테이블 migration이 준비되어 있다.
+- Outbox 이벤트 Entity와 상태 enum이 정의되어 있다.
+- 상태 값은 `PENDING`, `PUBLISHED`, `FAILED`를 사용한다.
+- 도메인 트랜잭션 안에서 Outbox 이벤트를 함께 저장할 수 있는 Appender 서비스가 있다.
+- 트랜잭션 없이 Outbox 저장을 호출하면 실패한다.
+- Relay가 발행 대상 이벤트를 조회할 수 있는 Repository 메서드가 있다.
+- Kafka 발행 Worker 구현은 후속 작업 범위로 남긴다.
+- 개인정보, 인증정보, 원문 프롬프트, stack trace를 payload에 저장하지 않는 기준이 코드 주석 또는 문서에 반영되어 있다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
+- [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22, done: 2026-07-15, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 오류 응답 API 호출 검증 통과, 공통 오류 응답 DTO/Error Catalog/GlobalExceptionHandler/Spring Security 인증·인가 오류 응답 처리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Spring Boot `4.1.0` BOM 기준 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬과 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
 - [T-025] Jira 티켓 작업 시작 시 `진행 중` 상태를 기본 전환하도록 운영 규칙 변경 (done: 2026-07-05)
