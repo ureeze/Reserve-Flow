@@ -4,11 +4,11 @@
 
 ReserveFlow MVP 개발 착수 준비 완료.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog가 준비되었다. 현재 단계는 Transactional Outbox 기본 구조 구현이다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. 현재 단계는 자연어 예약 요청 해석 API 구현 준비이다.
 
 ## 현재 진행 중 작업
 
-- RF-23 Transactional Outbox 기본 구조 구현
+- 없음
 
 ## 최근 완료 작업
 
@@ -18,6 +18,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 - RF-23 진행: OutboxEvent 생성에 Builder 패턴을 적용해 문자열 인자 순서 실수 위험 완화
 - RF-23 진행: Outbox 이벤트 저장, 기존 트랜잭션 필수 참여, 발행 대상 이벤트 조회 테스트 추가
 - RF-23 검증: `.\backend\gradlew.bat test` 통과
+- RF-23 완료: PR #11 squash merge 후 Jira 상태를 `완료`로 전환하고 Slack 공유 완료
+- Memory Bank 작업 상태 흐름을 `In Progress -> Review -> Done` 기준으로 정리
 - RF-22 완료: 공통 오류 응답 DTO, Error Catalog, GlobalExceptionHandler, Spring Security 인증/인가 오류 응답 처리 적용
 - RF-22 완료: Validation/Auth/Not Found/Conflict 오류 응답 테스트와 로컬 API 검증 완료
 - RF-22 완료: PR #10 squash merge 후 Jira 상태를 `완료`로 전환하고 Slack 공유 완료
@@ -88,8 +90,8 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 다음 작업
 
-1. [T-006] Transactional Outbox 기본 구조 구현 마무리: 커밋, push, PR 생성 여부 확인 (Jira: RF-23)
-2. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+1. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+2. [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 
 ## 관련 문서
 

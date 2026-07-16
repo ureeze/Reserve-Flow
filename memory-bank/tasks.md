@@ -6,6 +6,8 @@
 
 기본 완료 범위는 로컬 구현, 테스트/검증, Memory Bank 갱신이다. GitHub PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 `AGENTS.md`의 Jira 규칙에 따라 작업 시작, PR 생성, PR merge 시점에 기본 전환한다. 주요 상태 변화의 Slack 공유는 `AGENTS.md` 기준에 따라 기본 수행한다.
 
+작업 상태는 `In Progress -> Review -> Done` 흐름으로 관리한다. 구현 중인 작업은 `In Progress`, 구현과 검증이 완료되어 PR이 생성된 작업은 `Review`, PR merge와 Jira 완료 전환까지 끝난 작업은 `Done`에 둔다.
+
 ## Next
 
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
@@ -15,7 +17,11 @@
 
 ## In Progress
 
-- [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23)
+- 없음
+
+## Review
+
+- 없음
 
 ## Blocked
 
@@ -100,6 +106,7 @@
 
 ## Done
 
+- [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23, done: 2026-07-16, PR: #11 merge 완료, 검증: `.\backend\gradlew.bat test` 통과, `outbox_events` Flyway migration, OutboxEvent Entity/상태 enum/Repository, 트랜잭션 참여 전용 Appender 서비스, Builder 패턴 적용, 발행 대상 이벤트 조회 테스트 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-005] 공통 오류 응답과 Error Catalog 적용 (Jira: RF-22, done: 2026-07-15, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 오류 응답 API 호출 검증 통과, 공통 오류 응답 DTO/Error Catalog/GlobalExceptionHandler/Spring Security 인증·인가 오류 응답 처리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-004] 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현 (Jira: RF-21, done: 2026-07-08, 검증: `.\backend\gradlew.bat test` 통과, `.\backend\gradlew.bat bootRun` 로컬 실행과 실제 회원가입/로그인/현재 회원 조회/refresh token 재발급 API 호출 통과, PostgreSQL 18 기준 로컬 volume 경로 정리, Spring Boot `4.1.0` BOM 기준 PostgreSQL JDBC `42.7.11`, Lettuce `7.5.2.RELEASE`, Flyway `12.4.0`, Hibernate `7.4.1.Final` 버전 정렬과 PostgreSQL 18.4 경고 제거 확인, 회원가입과 로그인 토큰 발급 분리, Member 명칭 적용, 회원 내부 PK와 public ID 분리, 패키지 계층 정리와 Lombok 생성자 정리 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
 - [T-003] Redis 연결과 기본 설정 (Jira: RF-20, done: 2026-07-06, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Slack 공유: 미수행, Jira 상태 변경: `진행 중` 전환 완료)
