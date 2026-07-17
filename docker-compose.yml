@@ -29,6 +29,18 @@ services:
       timeout: 5s
       retries: 5
 
+  llm-service:
+    build:
+      context: ./llm-service
+    container_name: reserveflow-llm-service
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4.1-mini}
+      LLM_SERVICE_HOST: 0.0.0.0
+      LLM_SERVICE_PORT: 8000
+    ports:
+      - "${LLM_SERVICE_PORT:-8000}:8000"
+
 volumes:
   reserveflow-postgres18-data:
   reserveflow-redis-data:
