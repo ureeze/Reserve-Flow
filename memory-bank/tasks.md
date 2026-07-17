@@ -21,7 +21,7 @@
 
 ## Review
 
-- [T-026] RF-6 LLM 연동 방식 Spike (Jira: RF-6, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: Notion API 명세 재대조, Notion ADR-009 기록, `git diff --check` 통과, Jira 상태: 실제 API 구현 전이므로 `진행 중` 유지, Slack: PR 생성 시 `#reserve-flow-dev` 공유 예정)
+- [T-026] RF-6 LLM 연동 방식 Spike (Jira: RF-6, PR: #13, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: Notion API 명세 재대조, Notion ADR-009 기록, `git diff --check` 통과, Jira 상태: 실제 API 구현 전이므로 `진행 중` 유지, Slack: `#reserve-flow-dev` 공유 예정)
 
 ## Blocked
 
