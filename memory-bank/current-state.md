@@ -2,15 +2,17 @@
 
 ## 현재 마일스톤
 
-ReserveFlow MVP 개발 착수 준비 완료.
+ReserveFlow MVP 공통 인프라 구현이 완료되었고, 자연어 예약 요청 해석을 위한 LLM 연동 Spike가 PR 검토 준비 상태다.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. 현재 단계는 자연어 예약 요청 해석 API 구현 준비이다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. Python FastAPI + LangChain 기반 자연어 예약 요청 해석 서비스 연동 방향을 Spike로 확정했고, 실제 구현 PR을 준비한다.
 
 ## 현재 진행 중 작업
 
 - 없음
 
 ## 최근 완료 작업
+
+- RF-6 착수: Jira 상태를 `진행 중`으로 전환하고 Python FastAPI + LangChain 기반 LLM 연동 Spike 브랜치 생성
 
 - RF-23 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-23-transactional-outbox` 브랜치 생성
 - RF-23 진행: `outbox_events` Flyway migration 추가
@@ -90,8 +92,9 @@ ReserveFlow MVP 개발 착수 준비 완료.
 
 ## 다음 작업
 
-1. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
-2. [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
+1. [T-026] RF-6 LLM 연동 방식 Spike PR 검토 및 merge
+2. [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+3. [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 
 ## 관련 문서
 

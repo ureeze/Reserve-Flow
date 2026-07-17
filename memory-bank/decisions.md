@@ -16,3 +16,4 @@ ADR 원본은 Notion ADR 문서를 기준으로 한다.
 - ADR-006 Hold와 Promotion Hold 만료 시간 5분
 - ADR-007 Spring Boot 백엔드 우선 개발
 - ADR-008 Jira 기반 개발 진행 및 GitHub PR 운영 흐름
+- ADR-009 Python FastAPI + LangChain 기반 자연어 예약 해석 서비스

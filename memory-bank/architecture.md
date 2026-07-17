@@ -3,6 +3,7 @@
 ## 아키텍처 기준
 
 - Backend: Java 21, Spring Boot 4.1.0
+- LLM 해석: Python FastAPI + LangChain 별도 서비스
 - 구조: Modular Monolith 우선
 - 비동기 처리: Transactional Outbox + Kafka 이벤트 + Worker
 - 최종 정합성 기준: PostgreSQL
@@ -13,7 +14,9 @@
 
 ```text
 자연어 예약 요청
--> 예약 조건 해석
+-> Spring Boot 공개 해석 API
+-> Python LLM 해석 서비스
+-> 예약 조건 해석 결과 검증
 -> 예약 조건 검증
 -> 예약 제공자 검색
 -> booking slot 조회
@@ -28,6 +31,7 @@
 ## 주요 모듈 후보
 
 - `reservationrequest`: 자연어 예약 요청 해석과 검증
+- `llm-service`: LangChain을 사용해 자연어를 구조화된 예약 조건으로 변환하는 Python FastAPI 서비스
 - `bookingprovider`: 예약 제공자 검색과 운영 정책
 - `bookingslot`: booking slot 조회와 잔여 수용량 관리
 - `hold`: HoldRequest, Hold 생성, Hold 만료
@@ -39,7 +43,7 @@
 
 ## 핵심 데이터 모델
 
-- `users`
+- `members`
 - `booking_providers`
 - `booking_provider_business_hours`
 - `booking_provider_closures`
@@ -74,6 +78,11 @@
 ## 설계 주의사항
 
 - 외부 API, LLM, Kafka 호출은 DB 트랜잭션 밖에서 수행한다.
+- 자연어 해석 API는 공개 API로 두고, Redis 기반 요청 제한은 Spring Boot API 경계에서 처리한다.
+- Spring Boot는 Python LLM 서비스와 HTTP로 통신하고, LLM 서비스는 Pydantic 스키마와 LangChain structured output으로 응답 형식을 강제한다.
+- 자연어 원문 `reservationMessage`는 DB, Outbox payload, audit metadata, 애플리케이션 로그에 저장하지 않는다.
+- 상대 날짜 해석 기준 시각은 Spring Boot 서버의 현재 날짜와 시간대다.
+- 업종(`providerType`)을 추론하지 못하면 잘못된 요청으로 처리해 400 공통 오류 응답을 반환한다.
 - 적용된 Flyway Migration은 수정하지 않는다.
 - DB CHECK와 UNIQUE로 핵심 무결성을 방어한다.
 - 상태 전이는 애플리케이션에서 명시적으로 검증한다.

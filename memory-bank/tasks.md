@@ -10,7 +10,7 @@
 
 ## Next
 
-- [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+- [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6, 선행: T-026 LLM 연동 Spike)
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
 - [T-010] booking slot 조회 API 구현 (Jira: RF-9)
@@ -21,7 +21,7 @@
 
 ## Review
 
-- 없음
+- [T-026] RF-6 LLM 연동 방식 Spike (Jira: RF-6, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: Notion API 명세 재대조, Notion ADR-009 기록, `git diff --check` 통과, Jira 상태: 실제 API 구현 전이므로 `진행 중` 유지, Slack: PR 생성 시 `#reserve-flow-dev` 공유 예정)
 
 ## Blocked
 
@@ -103,6 +103,16 @@
 - 개인정보, 인증정보, 원문 프롬프트, stack trace를 payload에 저장하지 않는 기준이 코드 주석 또는 문서에 반영되어 있다.
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
+### T-026 / RF-6 Spike
+
+- Spring Boot 공개 해석 API와 Python LLM 서비스의 책임 경계가 문서화되어 있다.
+- Python 서비스는 FastAPI, LangChain, `langchain-openai`, Pydantic을 사용하기로 결정되어 있다.
+- Spring Boot가 Python 서비스로 HTTP 호출하고, Python 서비스가 structured output을 반환하는 계약이 정의되어 있다.
+- 자연어 원문을 DB, Outbox payload, audit metadata, 로그에 저장하지 않는 기준이 반영되어 있다.
+- 해석 API는 `permitAll`, Redis rate limit은 Spring Boot 경계에서 처리하는 기준이 반영되어 있다.
+- 상대 날짜는 서버 현재 날짜 기준으로 해석하고, 업종 추론 실패는 400으로 처리하는 기준이 반영되어 있다.
+- Notion ADR 원본과 `memory-bank/decisions.md` 인덱스에 결정을 기록한다.
 
 ## Done
 

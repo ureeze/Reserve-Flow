@@ -18,8 +18,8 @@
 ## Database
 
 - PostgreSQL 18.4 기준
-- 주요 엔티티 PK는 `uuid`
-- UUID는 애플리케이션에서 UUIDv7로 생성
+- `members`는 내부 PK `Long id`와 외부/JWT 식별자 `UUID publicId`를 분리한다.
+- 예약 도메인의 외부 식별자는 UUID 기반으로 설계하며, UUIDv7 생성 방식은 실제 구현 시 결정한다.
 - 운영 환경 Hibernate `ddl-auto`는 `validate`
 
 ## Cache / Queue / Async
@@ -28,6 +28,16 @@
 - Kafka
 - Transactional Outbox
 - Worker 기반 비동기 처리
+
+## LLM Interpretation
+
+- 위치(예정): `llm-service/`
+- Python 3.12+
+- FastAPI: Spring Boot가 호출하는 내부 HTTP API 제공
+- LangChain + `langchain-openai`: 모델 호출과 structured output 처리
+- Pydantic: LLM 응답 스키마 검증
+- Spring Boot는 공개 해석 API, 입력 검증, Redis rate limit, 공통 오류 응답을 담당한다.
+- `OPENAI_API_KEY` 등 모델 제공자 비밀값은 환경변수로만 주입하며 저장소, 로그, Outbox payload에 남기지 않는다.
 
 ## API
 
@@ -54,6 +64,7 @@
 - Bearer Token 기반 JWT
 - 회원가입, 로그인, 토큰 발급/갱신 API
 - 예약 관련 MVP API의 JWT 인증 필터와 사용자 식별
+- 자연어 예약 요청 해석 API는 MVP 기준 공개 API(`permitAll`)로 둔다.
 - JWT subject는 `members.auth_subject`와 연결
 - 클라이언트가 전달한 `userId`는 신뢰하지 않음
 
