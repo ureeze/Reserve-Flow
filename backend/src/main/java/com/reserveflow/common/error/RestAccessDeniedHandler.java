@@ -8,21 +8,18 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
 
 /**
  * 권한이 부족한 요청을 공통 오류 응답으로 변환한다.
  */
+@RequiredArgsConstructor
 @Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
 	private final ErrorResponseFactory errorResponseFactory;
 	private final ObjectMapper objectMapper;
-
-	public RestAccessDeniedHandler(ErrorResponseFactory errorResponseFactory, ObjectMapper objectMapper) {
-		this.errorResponseFactory = errorResponseFactory;
-		this.objectMapper = objectMapper;
-	}
 
 	/**
 	 * Spring Security 인가 실패 시 403 공통 오류 응답을 직접 작성한다.

@@ -1,9 +1,9 @@
-from datetime import date, time
+﻿from datetime import date, time
 
 from pydantic import BaseModel, ConfigDict, Field, field_serializer
 
 
-class ReservationInterpretationRequest(BaseModel):
+class ReservationExtractionRequest(BaseModel):
     """Spring Boot가 전달하는 자연어 예약 해석 요청이다."""
 
     model_config = ConfigDict(populate_by_name=True)
@@ -13,7 +13,7 @@ class ReservationInterpretationRequest(BaseModel):
     timezone: str
 
 
-class ReservationInterpretationResponse(BaseModel):
+class ReservationExtractionResponse(BaseModel):
     """LLM이 추출한 예약 조건의 내부 HTTP 응답 계약이다."""
 
     model_config = ConfigDict(populate_by_name=True)
@@ -23,7 +23,6 @@ class ReservationInterpretationResponse(BaseModel):
     party_size: int | None = Field(default=None, ge=1, alias="partySize")
     location: str | None = None
     provider_type: str | None = Field(default=None, alias="providerType")
-    confidence: float = Field(ge=0, le=1)
     missing_fields: list[str] = Field(default_factory=list, alias="missingFields")
 
     @field_serializer("reservation_time")

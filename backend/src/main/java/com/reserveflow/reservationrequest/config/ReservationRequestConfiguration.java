@@ -18,13 +18,16 @@ public class ReservationRequestConfiguration {
      * Python FastAPI 서비스 전용 HTTP 클라이언트를 생성한다.
      */
     @Bean
-	RestClient llmServiceRestClient(LlmServiceProperties properties) {
+    RestClient llmServiceRestClient(LlmServiceProperties properties) {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+
+        // LLM 서비스 연결과 응답 대기에 같은 timeout 설정을 적용한다.
         Duration timeout = properties.timeout();
         requestFactory.setConnectTimeout(timeout);
         requestFactory.setReadTimeout(timeout);
 
-		return RestClient.builder()
+        // LLM 서비스 baseUrl을 기본 주소로 사용하는 전용 RestClient를 만든다.
+        return RestClient.builder()
                 .baseUrl(properties.baseUrl())
                 .requestFactory(requestFactory)
                 .build();

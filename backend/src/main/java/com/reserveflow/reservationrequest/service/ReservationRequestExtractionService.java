@@ -3,62 +3,58 @@ package com.reserveflow.reservationrequest.service;
 import com.reserveflow.common.error.ApiException;
 import com.reserveflow.common.error.ErrorCode;
 import com.reserveflow.common.error.ErrorResponse;
-import com.reserveflow.reservationrequest.client.LlmReservationInterpretationClient;
-import com.reserveflow.reservationrequest.client.LlmReservationInterpretationClient.LlmReservationInterpretationResult;
+import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient;
+import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient.LlmReservationExtractionResult;
 import com.reserveflow.reservationrequest.dto.BookingProviderType;
-import com.reserveflow.reservationrequest.dto.InterpretReservationRequest;
-import com.reserveflow.reservationrequest.dto.InterpretReservationResponse;
+import com.reserveflow.reservationrequest.dto.ExtractReservationRequest;
+import com.reserveflow.reservationrequest.dto.ExtractReservationResponse;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
  * 자연어 예약 요청을 Python LLM 서비스에 전달하고 API 계약에 맞게 검증한다.
  */
+@RequiredArgsConstructor
 @Service
-public class ReservationRequestInterpretationService {
+public class ReservationRequestExtractionService {
 
-    private final LlmReservationInterpretationClient llmClient;
-    private final InterpretationRateLimiter rateLimiter;
-
-    public ReservationRequestInterpretationService(
-            LlmReservationInterpretationClient llmClient,
-            InterpretationRateLimiter rateLimiter
-    ) {
-        this.llmClient = llmClient;
-        this.rateLimiter = rateLimiter;
-    }
+    private final LlmReservationExtractionClient llmClient;
+    private final ExtractionRateLimiter rateLimiter;
 
     /**
      * 호출 횟수를 확인한 뒤 서버 현재 날짜를 기준으로 자연어 예약 요청을 해석한다.
      */
-    public InterpretReservationResponse interpret(InterpretReservationRequest request, String callerKey) {
+    public ExtractReservationResponse extract(ExtractReservationRequest request, String callerKey) {
+        // 호출자별 LLM 해석 API 사용량을 먼저 제한한다.
         rateLimiter.check(callerKey);
 
+        // "오늘", "내일" 같은 상대 날짜 해석을 위해 서버 기준 날짜와 시간대를 전달한다.
         ZoneId serverZone = ZoneId.systemDefault();
-        LlmReservationInterpretationResult result = llmClient.interpret(
+        LlmReservationExtractionResult result = llmClient.extract(
                 request.reservationMessage(),
                 LocalDate.now(serverZone),
                 serverZone.getId()
         );
 
-        return new InterpretReservationResponse(
+        // LLM 응답을 API 응답 계약에 맞게 파싱하고 검증한다.
+        return new ExtractReservationResponse(
                 parseDate(result.reservationDate()),
                 parseTime(result.reservationTime()),
                 validatePartySize(result.partySize()),
                 result.location(),
                 parseProviderType(result.providerType()),
-                validateConfidence(result.confidence()),
                 result.missingFields() == null ? List.of() : List.copyOf(result.missingFields())
         );
     }
 
-    /** LLM이 반환한 날짜 문자열을 ISO 8601 날짜로 검증한다. */
+    /** LLM이 반환한 날짜 문자열을 ISO 8601 날짜 형식으로 검증한다. */
     private LocalDate parseDate(String value) {
         if (!StringUtils.hasText(value)) {
             return null;
@@ -103,14 +99,6 @@ public class ReservationRequestInterpretationService {
         } catch (IllegalArgumentException exception) {
             throw invalidResult("providerType", "지원하지 않는 예약 제공자 유형입니다.");
         }
-    }
-
-    /** 신뢰도는 0부터 1 사이의 숫자여야 한다. */
-    private double validateConfidence(Double value) {
-        if (value == null || value < 0 || value > 1) {
-            throw invalidResult("confidence", "0과 1 사이의 값이어야 합니다.");
-        }
-        return value;
     }
 
     /** LLM 출력이 API 계약을 따르지 않을 때 반환할 공통 예외를 생성한다. */

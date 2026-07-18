@@ -80,7 +80,7 @@ memory-bank/
 ├─ coding-rules.md
 ├─ current-state.md
 ├─ decisions.md
-├─ llm-interpretation-spike.md
+├─ llm-extraction-spike.md
 ├─ tasks.md
 ├─ tasks-archive.md
 └─ troubleshooting.md
@@ -94,7 +94,7 @@ memory-bank/
 - `coding-rules.md`: 프로젝트 코드 작성 기준
 - `current-state.md`: 현재 마일스톤, 열린 이슈, 다음 작업
 - `decisions.md`: Notion ADR 링크 인덱스
-- `llm-interpretation-spike.md`: RF-6 Python LLM 서비스 연동 Spike의 계약과 후속 구현 기준
+- `llm-extraction-spike.md`: RF-6 Python LLM 서비스 연동 Spike의 계약과 후속 구현 기준
 - `tasks.md`: 가까운 작업 목록과 완료 조건
 - `tasks-archive.md`: 오래된 완료 작업 보관
 - `troubleshooting.md`: 문제 해결 기록

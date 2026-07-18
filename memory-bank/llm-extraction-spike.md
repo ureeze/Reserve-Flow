@@ -1,4 +1,4 @@
-# RF-6 LLM Interpretation Spike
+﻿# RF-6 LLM Extraction Spike
 
 ## 목적
 
@@ -8,7 +8,7 @@
 
 ```text
 Client
-  -> Spring Boot: POST /api/v1/reservation-requests/interpret
+  -> Spring Boot: POST /api/v1/reservation-requests/extract
   -> Spring Boot: 입력 검증, 공개 접근, Redis rate limit, 공통 오류 응답
   -> Python FastAPI: 내부 HTTP 호출
   -> LangChain + langchain-openai: structured output 생성
@@ -25,7 +25,7 @@ Client
 Spring Boot는 Notion API 명세서의 외부 계약을 유지한다.
 
 ```http
-POST /api/v1/reservation-requests/interpret
+POST /api/v1/reservation-requests/extract
 Content-Type: application/json
 
 {
@@ -40,7 +40,6 @@ Content-Type: application/json
 - `partySize`: 인원, 없으면 `null`
 - `location`: 지역 또는 주소 검색어, 없으면 `null`
 - `providerType`: `RESTAURANT`, `CINEMA`, `HOSPITAL`, `SALON`, `CLASS`, `ROOM` 중 하나
-- `confidence`: 0부터 1 사이의 해석 신뢰도
 - `missingFields`: 확인이 필요한 필드 이름 목록
 
 `providerType`을 추론하지 못하면 불완전 응답으로 반환하지 않고 `400` 공통 오류 응답으로 처리한다. 그 외 누락 필드는 `missingFields`에 담아 `200 OK`로 반환할 수 있다.
@@ -50,7 +49,7 @@ Content-Type: application/json
 Python 서비스는 Spring Boot가 제공하는 기준 날짜와 시간대를 입력받는다. 상대 날짜는 모델 자체의 현재 시각이 아니라 이 기준값으로 해석한다.
 
 ```http
-POST /v1/interpreters/reservation
+POST /v1/extractors/reservation
 Content-Type: application/json
 
 {

@@ -49,10 +49,10 @@ class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(
-						"/api/v1/auth/signup",
-						"/api/v1/auth/login",
-						"/api/v1/auth/token/refresh",
-						"/api/v1/reservation-requests/interpret"
+								"/api/v1/auth/signup",
+								"/api/v1/auth/login",
+								"/api/v1/auth/token/refresh",
+								"/api/v1/reservation-requests/extract"
 						).permitAll()
 						.anyRequest().authenticated()
 				)

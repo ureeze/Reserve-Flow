@@ -1,4 +1,4 @@
-# ReserveFlow LLM Service
+﻿# ReserveFlow LLM Service
 
 Python FastAPI와 LangChain으로 자연어 예약 요청을 구조화된 예약 조건으로 변환하는 내부 서비스다.
 
@@ -18,7 +18,7 @@ $env:OPENAI_MODEL = "gpt-4.1-mini"
 docker compose up -d llm-service
 ```
 
-내부 API는 `POST http://localhost:8000/v1/interpreters/reservation`이다. Spring Boot는 `LLM_SERVICE_BASE_URL` 환경변수로 이 서비스 주소를 변경할 수 있다.
+내부 API는 `POST http://localhost:8000/v1/extractors/reservation`이다. Spring Boot는 `LLM_SERVICE_BASE_URL` 환경변수로 이 서비스 주소를 변경할 수 있다.
 
 ## Test
 

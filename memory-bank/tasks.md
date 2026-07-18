@@ -106,7 +106,7 @@
 
 ### T-007 / RF-6
 
-- `POST /api/v1/reservation-requests/interpret`가 자연어 예약 요청을 구조화된 예약 조건으로 반환한다.
+- `POST /api/v1/reservation-requests/extract`가 자연어 예약 요청을 구조화된 예약 조건으로 반환한다.
 - 해석 API는 인증 없이 호출할 수 있고, 인증된 호출은 JWT subject를 rate limit 키로 사용한다.
 - Python FastAPI + LangChain 서비스가 Spring Boot의 내부 HTTP 요청을 처리한다.
 - Python 서비스는 Pydantic과 LangChain structured output으로 응답 구조를 검증한다.

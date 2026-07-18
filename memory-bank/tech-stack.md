@@ -29,7 +29,7 @@
 - Transactional Outbox
 - Worker 기반 비동기 처리
 
-## LLM Interpretation
+## LLM Extraction
 
 - 위치(예정): `llm-service/`
 - Python 3.12+

@@ -9,21 +9,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
 import tools.jackson.databind.ObjectMapper;
 
 /**
  * 인증되지 않은 요청을 공통 오류 응답으로 변환한다.
  */
+@RequiredArgsConstructor
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private final ErrorResponseFactory errorResponseFactory;
 	private final ObjectMapper objectMapper;
-
-	public RestAuthenticationEntryPoint(ErrorResponseFactory errorResponseFactory, ObjectMapper objectMapper) {
-		this.errorResponseFactory = errorResponseFactory;
-		this.objectMapper = objectMapper;
-	}
 
 	/**
 	 * Spring Security 인증 실패 시 401 공통 오류 응답을 직접 작성한다.

@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.reserveflow.common.error.ApiException;
 import com.reserveflow.common.error.ErrorCode;
-import com.reserveflow.reservationrequest.client.LlmReservationInterpretationClient;
-import com.reserveflow.reservationrequest.client.LlmReservationInterpretationClient.LlmReservationInterpretationResult;
-import com.reserveflow.reservationrequest.service.InterpretationRateLimiter;
+import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient;
+import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient.LlmReservationExtractionResult;
+import com.reserveflow.reservationrequest.service.ExtractionRateLimiter;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -33,28 +33,27 @@ class ReservationRequestControllerTests {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private LlmReservationInterpretationClient llmClient;
+    private LlmReservationExtractionClient llmClient;
 
     @MockitoBean
-    private InterpretationRateLimiter rateLimiter;
+    private ExtractionRateLimiter rateLimiter;
 
     /**
      * 인증 없이 자연어 요청을 보내도 구조화된 예약 조건을 반환하는지 검증한다.
      */
     @Test
-    void interpretReturnsStructuredReservationConditionWithoutAuthentication() throws Exception {
-        given(llmClient.interpret(anyString(), any(LocalDate.class), anyString()))
-                .willReturn(new LlmReservationInterpretationResult(
+    void extractReturnsStructuredReservationConditionWithoutAuthentication() throws Exception {
+        given(llmClient.extract(anyString(), any(LocalDate.class), anyString()))
+                .willReturn(new LlmReservationExtractionResult(
                         "2026-07-18",
                         "19:00",
                         4,
                         "강남",
                         "RESTAURANT",
-                        0.91,
                         List.of()
                 ));
 
-        mockMvc.perform(post("/api/v1/reservation-requests/interpret")
+        mockMvc.perform(post("/api/v1/reservation-requests/extract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -67,7 +66,6 @@ class ReservationRequestControllerTests {
                 .andExpect(jsonPath("$.partySize").value(4))
                 .andExpect(jsonPath("$.location").value("강남"))
                 .andExpect(jsonPath("$.providerType").value("RESTAURANT"))
-                .andExpect(jsonPath("$.confidence").value(0.91))
                 .andExpect(jsonPath("$.missingFields").isArray());
     }
 
@@ -75,19 +73,18 @@ class ReservationRequestControllerTests {
      * 업종을 추론하지 못한 LLM 결과는 400 PARSE_004로 변환되는지 검증한다.
      */
     @Test
-    void interpretRejectsMissingProviderType() throws Exception {
-        given(llmClient.interpret(anyString(), any(LocalDate.class), anyString()))
-                .willReturn(new LlmReservationInterpretationResult(
+    void extractRejectsMissingProviderType() throws Exception {
+        given(llmClient.extract(anyString(), any(LocalDate.class), anyString()))
+                .willReturn(new LlmReservationExtractionResult(
                         "2026-07-18",
                         "19:00",
                         4,
                         "강남",
                         null,
-                        0.72,
                         List.of("providerType")
                 ));
 
-        mockMvc.perform(post("/api/v1/reservation-requests/interpret")
+        mockMvc.perform(post("/api/v1/reservation-requests/extract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -103,12 +100,12 @@ class ReservationRequestControllerTests {
      * Redis 요청 제한을 초과하면 429 RATE_LIMIT_001을 반환하는지 검증한다.
      */
     @Test
-    void interpretRejectsRateLimitExceeded() throws Exception {
+    void extractRejectsRateLimitExceeded() throws Exception {
         doThrow(new ApiException(ErrorCode.RATE_LIMIT_EXCEEDED))
                 .when(rateLimiter)
                 .check(anyString());
 
-        mockMvc.perform(post("/api/v1/reservation-requests/interpret")
+        mockMvc.perform(post("/api/v1/reservation-requests/extract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -123,11 +120,11 @@ class ReservationRequestControllerTests {
      * Python LLM 서비스 호출 실패는 502 LLM_001로 반환하는지 검증한다.
      */
     @Test
-    void interpretMapsLlmFailureToBadGateway() throws Exception {
-        given(llmClient.interpret(anyString(), any(LocalDate.class), anyString()))
+    void extractMapsLlmFailureToBadGateway() throws Exception {
+        given(llmClient.extract(anyString(), any(LocalDate.class), anyString()))
                 .willThrow(new ApiException(ErrorCode.LLM_UNAVAILABLE));
 
-        mockMvc.perform(post("/api/v1/reservation-requests/interpret")
+        mockMvc.perform(post("/api/v1/reservation-requests/extract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -142,8 +139,8 @@ class ReservationRequestControllerTests {
      * 필수 자연어 입력을 비우면 기존 공통 Validation 오류를 반환하는지 검증한다.
      */
     @Test
-    void interpretRejectsBlankReservationMessage() throws Exception {
-        mockMvc.perform(post("/api/v1/reservation-requests/interpret")
+    void extractRejectsBlankReservationMessage() throws Exception {
+        mockMvc.perform(post("/api/v1/reservation-requests/extract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
