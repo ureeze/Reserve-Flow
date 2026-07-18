@@ -10,7 +10,7 @@
 
 ## Next
 
-- [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6)
+- 없음
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
 - [T-010] booking slot 조회 API 구현 (Jira: RF-9)
@@ -21,7 +21,7 @@
 
 ## Review
 
-- 없음
+- [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6, PR: #13, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: `.\backend\gradlew.bat test` 통과, Python 모의 structured-output 테스트 통과, Docker Compose 기반 실제 OpenAI 호출과 Spring Boot 공개 API 연동 검증 통과, Jira 상태: `검토 중`, Slack: `#reserve-flow-dev` 구현 완료 리뷰 요청 전송 시도했으나 커넥터의 외부 공유 보안 정책으로 차단)
 
 ## Blocked
 
@@ -103,6 +103,31 @@
 - 개인정보, 인증정보, 원문 프롬프트, stack trace를 payload에 저장하지 않는 기준이 코드 주석 또는 문서에 반영되어 있다.
 - `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
 - `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
+### T-007 / RF-6
+
+- `POST /api/v1/reservation-requests/extract`가 자연어 예약 요청을 구조화된 예약 조건으로 반환한다.
+- 해석 API는 인증 없이 호출할 수 있고, 인증된 호출은 JWT subject를 rate limit 키로 사용한다.
+- Python FastAPI + LangChain 서비스가 Spring Boot의 내부 HTTP 요청을 처리한다.
+- Python 서비스는 Pydantic과 LangChain structured output으로 응답 구조를 검증한다.
+- 상대 날짜는 Spring Boot 서버의 현재 날짜와 시간대를 기준으로 해석한다.
+- `providerType`을 추론하지 못하거나 지원하지 않는 유형이면 `400 PARSE_004`를 반환한다.
+- 요청 제한 초과 시 `429 RATE_LIMIT_001`, LLM 서비스 호출 실패 시 `502 LLM_001`을 반환한다.
+- 자연어 원문은 DB, Outbox payload, audit metadata, 로그에 저장하지 않는다.
+- Redis 기반 호출 제한이 사용자당 분당 10회로 적용된다.
+- Spring Boot 테스트와 Python 서비스 테스트가 통과한다.
+- Docker Compose 기반 로컬 연동을 검증한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
+### T-026 / RF-6 Spike
+
+- Spring Boot 공개 해석 API와 Python LLM 서비스의 책임 경계가 문서화되어 있다.
+- Python 서비스는 FastAPI, LangChain, `langchain-openai`, Pydantic을 사용하기로 결정되어 있다.
+- Spring Boot가 Python 서비스로 HTTP 호출하고, Python 서비스가 structured output을 반환하는 계약이 정의되어 있다.
+- 자연어 원문을 DB, Outbox payload, audit metadata, 로그에 저장하지 않는 기준이 반영되어 있다.
+- 해석 API는 `permitAll`, Redis rate limit은 Spring Boot 경계에서 처리하는 기준이 반영되어 있다.
+- 상대 날짜는 서버 현재 날짜 기준으로 해석하고, 업종 추론 실패는 400으로 처리하는 기준이 반영되어 있다.
+- Notion ADR 원본과 `memory-bank/decisions.md` 인덱스에 결정을 기록한다.
 
 ## Done
 

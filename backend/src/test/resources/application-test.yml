@@ -18,6 +18,13 @@ spring:
     open-in-view: false
 
 reserveflow:
+  llm:
+    base-url: http://localhost:8000
+    timeout: 1s
+    rate-limit:
+      max-requests: 10
+      window: 1m
+
   jwt:
     issuer: reserveflow-test
     secret: reserveflow-test-secret-key-for-jwt-signing-change-me

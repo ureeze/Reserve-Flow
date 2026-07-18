@@ -12,6 +12,9 @@ public enum ErrorCode {
 	AUTH_INVALID("AUTH_002", HttpStatus.UNAUTHORIZED, "인증 정보가 만료되었거나 유효하지 않습니다."),
 	AUTH_FORBIDDEN("AUTH_003", HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 	AUTH_DUPLICATE_SUBJECT("AUTH_004", HttpStatus.CONFLICT, "이미 가입된 인증 식별자입니다."),
+	PARSE_RESULT_INVALID("PARSE_004", HttpStatus.BAD_REQUEST, "예약 요청을 해석할 수 없습니다."),
+	RATE_LIMIT_EXCEEDED("RATE_LIMIT_001", HttpStatus.TOO_MANY_REQUESTS, "요청 횟수가 제한을 초과했습니다."),
+	LLM_UNAVAILABLE("LLM_001", HttpStatus.BAD_GATEWAY, "예약 요청 해석 서비스를 일시적으로 사용할 수 없습니다."),
 	PROVIDER_NOT_FOUND("PROVIDER_001", HttpStatus.NOT_FOUND, "예약 제공자를 찾을 수 없습니다."),
 	INTERNAL_SERVER_ERROR("INTERNAL_001", HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다.");
 

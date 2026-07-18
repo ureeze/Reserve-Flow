@@ -8,18 +8,16 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Controller 계층에서 발생한 예외를 API 공통 오류 응답으로 변환한다.
  */
+@RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
 	private final ErrorResponseFactory errorResponseFactory;
-
-	public GlobalExceptionHandler(ErrorResponseFactory errorResponseFactory) {
-		this.errorResponseFactory = errorResponseFactory;
-	}
 
 	/**
 	 * 애플리케이션에서 명시적으로 던진 ApiException을 ErrorCode 기준 응답으로 변환한다.
