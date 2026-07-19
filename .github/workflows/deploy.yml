@@ -36,13 +36,14 @@ jobs:
 
       - name: Notify Slack
         if: always() && env.SLACK_WEBHOOK_URL != ''
+        continue-on-error: true
         env:
           JOB_STATUS: ${{ job.status }}
         run: |
           if [ "$JOB_STATUS" = "success" ]; then
-            STATUS_TEXT="success"
+            export STATUS_TEXT="success"
           else
-            STATUS_TEXT="failure"
+            export STATUS_TEXT="failure"
           fi
 
           python - <<'PY' > slack-payload.json
