@@ -2,9 +2,9 @@
 
 ## 현재 마일스톤
 
-ReserveFlow MVP 공통 인프라 구현이 완료되었고, 자연어 예약 요청 해석 API 구현이 PR 검토 준비 상태다.
+ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API 구현이 완료되었다.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트와 P0 핵심 티켓이 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. Python FastAPI + LangChain 기반 자연어 예약 요청 해석 API와 Redis rate limit을 PR #13에 구현했고, 검토를 준비한다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트에는 Notion Jira 작업 문서 기준 Epic과 하위 티켓이 `RF-1` ~ `RF-54`까지 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. Python FastAPI + LangChain 기반 자연어 예약 요청 해석 API와 Redis rate limit은 PR #13 merge 후 Jira `RF-6` 완료 상태로 반영되었다.
 
 ## 현재 진행 중 작업
 
@@ -15,7 +15,9 @@ ReserveFlow MVP 공통 인프라 구현이 완료되었고, 자연어 예약 요
 - RF-6 구현: Spring Boot 공개 자연어 해석 API, Python FastAPI + LangChain structured output 서비스, Pydantic 응답 계약 추가
 - RF-6 구현: Redis Lua script 기반 사용자/IP 분당 10회 요청 제한과 `PARSE_004`, `RATE_LIMIT_001`, `LLM_001` 공통 오류 추가
 - RF-6 검증: `.\backend\gradlew.bat test` 통과, Python 모의 structured-output 테스트 통과, Docker Compose 기반 실제 OpenAI 호출과 Spring Boot 공개 API 연동 검증 완료
-
+- RF-6 완료: PR #13 squash merge 후 Jira 상태를 `완료`로 전환
+- Jira 백로그 보강: Notion Jira 작업 문서 기준으로 누락 Epic과 P1/P2 하위 티켓을 `RF-24` ~ `RF-54`로 생성 완료
+- Jira 백로그 보강: EPIC-05 대기열 처리, EPIC-07 프론트엔드 화면, EPIC-08 QA와 운영 준비와 하위 작업 등록 완료
 - RF-23 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-23-transactional-outbox` 브랜치 생성
 - RF-23 진행: `outbox_events` Flyway migration 추가
 - RF-23 진행: OutboxEvent Entity, 상태 enum, Repository, 트랜잭션 참여 전용 Appender 서비스 추가
@@ -84,18 +86,17 @@ ReserveFlow MVP 공통 인프라 구현이 완료되었고, 자연어 예약 요
 - QA 테스트 케이스 문서 위치 확정
 - Jira 작업 문서 작성 완료
 - Jira 프로젝트 `RF` 생성 확인
-- Jira P0 핵심 백로그 생성 완료: `RF-1` ~ `RF-23`
+- Jira MVP 백로그 생성 완료: `RF-1` ~ `RF-54`
 - 로컬 `AGENTS.md`와 `memory-bank`를 ReserveFlow 프로젝트 기준으로 초기화
 
 ## 열린 이슈
 
 - 프론트엔드 방식은 아직 확정되지 않았다. 후보는 HTML/CSS/JS 또는 React이다.
-- 대기열 처리 P1 티켓은 아직 Jira에 실제 생성하지 않았다.
 
 ## 다음 작업
 
-1. [T-007] 자연어 예약 요청 해석 API PR #13 검토 및 merge (Jira: RF-6)
-2. [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
+1. [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
+2. [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
 
 ## 관련 문서
 
