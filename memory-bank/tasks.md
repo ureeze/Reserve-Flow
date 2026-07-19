@@ -21,7 +21,7 @@
 
 ## Review
 
-- [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (PR: #14, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: workflow YAML 구조 확인 예정, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
+- [T-029] GitHub Actions Slack 알림 step 실패 수정 (브랜치: `docs/fix-actions-slack-notify`, 검증: 실패 로그 원인 확인, workflow YAML 구조 확인 예정, Jira 상태 변경: N/A, Slack: Actions webhook 알림 step 수정)
 
 ## Blocked
 
@@ -131,6 +131,7 @@
 
 ## Done
 
+- [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (done: 2026-07-20, PR: #14 merge 완료, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: PR Check 성공, Deploy workflow 자동 실행 확인, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6, done: 2026-07-19, PR: #13 merge 완료, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: `.\backend\gradlew.bat test` 통과, Python 모의 structured-output 테스트 통과, Docker Compose 기반 실제 OpenAI 호출과 Spring Boot 공개 API 연동 검증 통과, Spring Boot 공개 해석 API, Python FastAPI + LangChain structured output 서비스, Redis rate limit, `PARSE_004`/`RATE_LIMIT_001`/`LLM_001` 공통 오류 포함, Jira 상태 변경: `완료` 전환 완료, Slack: `#reserve-flow-dev` 공유 시도했으나 커넥터의 외부 공유 보안 정책으로 차단)
 - [T-027] Notion Jira 작업 문서 기준 누락 백로그 Jira 등록 (done: 2026-07-19, Jira: `RF-24` ~ `RF-54`, 신규 Epic: EPIC-05 대기열 처리, EPIC-07 프론트엔드 화면, EPIC-08 QA와 운영 준비, 하위 P1/P2 작업 등록 완료, 검증: Jira JQL로 `RF-1` ~ `RF-54`와 Notion 초안 대조 완료)
 - [T-006] Transactional Outbox 기본 구조 구현 (Jira: RF-23, done: 2026-07-16, PR: #11 merge 완료, 검증: `.\backend\gradlew.bat test` 통과, `outbox_events` Flyway migration, OutboxEvent Entity/상태 enum/Repository, 트랜잭션 참여 전용 Appender 서비스, Builder 패턴 적용, 발행 대상 이벤트 조회 테스트 포함, GitHub PR/Slack 공유 완료, Jira 상태 변경: `완료` 전환 완료)
