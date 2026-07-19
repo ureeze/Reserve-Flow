@@ -21,7 +21,7 @@
 
 ## Review
 
-- 없음
+- [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (PR: #14, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: workflow YAML 구조 확인 예정, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
 
 ## Blocked
 
