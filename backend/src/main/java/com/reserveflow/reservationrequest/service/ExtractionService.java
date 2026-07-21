@@ -3,48 +3,49 @@ package com.reserveflow.reservationrequest.service;
 import com.reserveflow.common.error.ApiException;
 import com.reserveflow.common.error.ErrorCode;
 import com.reserveflow.common.error.ErrorResponse;
-import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient;
-import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient.LlmReservationExtractionResult;
+import com.reserveflow.reservationrequest.client.LlmExtractionClient;
+import com.reserveflow.reservationrequest.client.LlmExtractionClient.LlmResult;
 import com.reserveflow.reservationrequest.dto.BookingProviderType;
-import com.reserveflow.reservationrequest.dto.ExtractReservationRequest;
-import com.reserveflow.reservationrequest.dto.ExtractReservationResponse;
+import com.reserveflow.reservationrequest.dto.ExtractRequest;
+import com.reserveflow.reservationrequest.dto.ExtractResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 /**
  * 자연어 예약 요청을 Python LLM 서비스에 전달하고 API 계약에 맞게 검증한다.
  */
 @RequiredArgsConstructor
 @Service
-public class ReservationRequestExtractionService {
+public class ExtractionService {
 
-    private final LlmReservationExtractionClient llmClient;
-    private final ExtractionRateLimiter rateLimiter;
+    private final LlmExtractionClient llmClient;
+    private final RequestRateLimiter rateLimiter;
 
     /**
      * 호출 횟수를 확인한 뒤 서버 현재 날짜를 기준으로 자연어 예약 요청을 해석한다.
      */
-    public ExtractReservationResponse extract(ExtractReservationRequest request, String callerKey) {
+    public ExtractResponse extract(ExtractRequest request, String callerKey) {
         // 호출자별 LLM 해석 API 사용량을 먼저 제한한다.
         rateLimiter.check(callerKey);
 
         // "오늘", "내일" 같은 상대 날짜 해석을 위해 서버 기준 날짜와 시간대를 전달한다.
         ZoneId serverZone = ZoneId.systemDefault();
-        LlmReservationExtractionResult result = llmClient.extract(
+        LlmResult result = llmClient.extract(
                 request.reservationMessage(),
                 LocalDate.now(serverZone),
                 serverZone.getId()
         );
 
         // LLM 응답을 API 응답 계약에 맞게 파싱하고 검증한다.
-        return new ExtractReservationResponse(
+        return new ExtractResponse(
                 parseDate(result.reservationDate()),
                 parseTime(result.reservationTime()),
                 validatePartySize(result.partySize()),

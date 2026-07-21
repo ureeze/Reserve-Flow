@@ -2,7 +2,7 @@ package com.reserveflow.reservationrequest.service;
 
 import com.reserveflow.common.error.ApiException;
 import com.reserveflow.common.error.ErrorCode;
-import com.reserveflow.reservationrequest.config.LlmServiceProperties;
+import com.reserveflow.reservationrequest.config.LlmProperties;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @RequiredArgsConstructor
 @Component
-public class ExtractionRateLimiter {
+public class RequestRateLimiter {
 
     private static final String KEY_PREFIX = "rate-limit:reservation-extract:";
     private static final DefaultRedisScript<Long> INCREMENT_WITH_EXPIRY = new DefaultRedisScript<>(
@@ -25,14 +25,14 @@ public class ExtractionRateLimiter {
     );
 
     private final StringRedisTemplate stringRedisTemplate;
-    private final LlmServiceProperties properties;
+    private final LlmProperties properties;
 
     /**
      * 호출자 키의 현재 윈도우 요청 수를 증가시키고 제한 초과 시 예외를 던진다.
      */
     public void check(String callerKey) {
         // 설정에 정의된 윈도우 시간과 최대 요청 수를 가져온다.
-        LlmServiceProperties.RateLimit rateLimit = properties.rateLimit();
+        LlmProperties.RateLimit rateLimit = properties.rateLimit();
         long windowSeconds = Math.max(1, rateLimit.window().toSeconds());
 
         // Redis에서 요청 수를 원자적으로 증가시키고 첫 요청이면 만료 시간을 설정한다.

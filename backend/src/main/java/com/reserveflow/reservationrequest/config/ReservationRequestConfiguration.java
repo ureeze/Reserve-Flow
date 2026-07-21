@@ -11,14 +11,14 @@ import org.springframework.web.client.RestClient;
  * 예약 요청 해석 모듈이 Python LLM 서비스에 연결하기 위한 설정이다.
  */
 @Configuration
-@EnableConfigurationProperties(LlmServiceProperties.class)
+@EnableConfigurationProperties(LlmProperties.class)
 public class ReservationRequestConfiguration {
 
     /**
      * Python FastAPI 서비스 전용 HTTP 클라이언트를 생성한다.
      */
     @Bean
-    RestClient llmServiceRestClient(LlmServiceProperties properties) {
+    RestClient llmServiceRestClient(LlmProperties properties) {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
 
         // LLM 서비스 연결과 응답 대기에 같은 timeout 설정을 적용한다.
