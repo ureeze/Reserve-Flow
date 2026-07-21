@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 자연어에서 추출한 구조화된 예약 조건을 반환한다.
  */
-public record ExtractReservationResponse(
+public record ExtractResponse(
         LocalDate reservationDate,
         @JsonFormat(pattern = "HH:mm")
         LocalTime reservationTime,

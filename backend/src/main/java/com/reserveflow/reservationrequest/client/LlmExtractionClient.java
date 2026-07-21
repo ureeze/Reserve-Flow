@@ -15,30 +15,30 @@ import org.springframework.web.client.RestClientException;
  */
 @RequiredArgsConstructor
 @Component
-public class LlmReservationExtractionClient {
+public class LlmExtractionClient {
 
-    private final RestClient llmServiceRestClient;
+    private final RestClient llmRestClient;
 
     /**
      * 서버 기준 날짜와 시간대를 포함해 Python LLM 서비스에 해석을 요청한다.
      */
-    public LlmReservationExtractionResult extract(
+    public LlmResult extract(
             String reservationMessage,
             LocalDate referenceDate,
             String timezone
     ) {
         try {
             // 자연어 메시지와 기준 날짜/시간대를 Python LLM 서비스에 JSON으로 전달한다.
-            LlmReservationExtractionResult result = llmServiceRestClient.post()
+            LlmResult result = llmRestClient.post()
                     .uri("/v1/extractors/reservation")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(new LlmReservationExtractionRequest(reservationMessage, referenceDate, timezone))
+                    .body(new LlmRequest(reservationMessage, referenceDate, timezone))
                     .retrieve()
                     .onStatus(status -> status.isError(), (request, response) -> {
                         // LLM 서비스가 오류 응답을 주면 서비스 사용 불가로 통일한다.
                         throw new ApiException(ErrorCode.LLM_UNAVAILABLE);
                     })
-                    .body(LlmReservationExtractionResult.class);
+                    .body(LlmResult.class);
 
             // 성공 응답이어도 body가 없으면 정상 해석 결과로 볼 수 없다.
             if (result == null) {
@@ -55,7 +55,7 @@ public class LlmReservationExtractionClient {
     }
 
     /** Python 서비스 요청 형식이다. */
-    private record LlmReservationExtractionRequest(
+    private record LlmRequest(
             String reservationMessage,
             LocalDate referenceDate,
             String timezone
@@ -63,7 +63,7 @@ public class LlmReservationExtractionClient {
     }
 
     /** Python 서비스가 반환하는 해석 결과 형식이다. */
-    public record LlmReservationExtractionResult(
+    public record LlmResult(
             String reservationDate,
             String reservationTime,
             Integer partySize,

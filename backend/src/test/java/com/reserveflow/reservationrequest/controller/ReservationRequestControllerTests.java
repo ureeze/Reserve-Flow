@@ -10,9 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.reserveflow.common.error.ApiException;
 import com.reserveflow.common.error.ErrorCode;
-import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient;
-import com.reserveflow.reservationrequest.client.LlmReservationExtractionClient.LlmReservationExtractionResult;
-import com.reserveflow.reservationrequest.service.ExtractionRateLimiter;
+import com.reserveflow.reservationrequest.client.LlmExtractionClient;
+import com.reserveflow.reservationrequest.client.LlmExtractionClient.LlmResult;
+import com.reserveflow.reservationrequest.service.RequestRateLimiter;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -33,10 +33,10 @@ class ReservationRequestControllerTests {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private LlmReservationExtractionClient llmClient;
+    private LlmExtractionClient llmClient;
 
     @MockitoBean
-    private ExtractionRateLimiter rateLimiter;
+    private RequestRateLimiter rateLimiter;
 
     /**
      * 인증 없이 자연어 요청을 보내도 구조화된 예약 조건을 반환하는지 검증한다.
@@ -44,7 +44,7 @@ class ReservationRequestControllerTests {
     @Test
     void extractReturnsStructuredReservationConditionWithoutAuthentication() throws Exception {
         given(llmClient.extract(anyString(), any(LocalDate.class), anyString()))
-                .willReturn(new LlmReservationExtractionResult(
+                .willReturn(new LlmResult(
                         "2026-07-18",
                         "19:00",
                         4,
@@ -75,7 +75,7 @@ class ReservationRequestControllerTests {
     @Test
     void extractRejectsMissingProviderType() throws Exception {
         given(llmClient.extract(anyString(), any(LocalDate.class), anyString()))
-                .willReturn(new LlmReservationExtractionResult(
+                .willReturn(new LlmResult(
                         "2026-07-18",
                         "19:00",
                         4,

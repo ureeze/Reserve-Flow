@@ -1,9 +1,9 @@
 package com.reserveflow.reservationrequest.controller;
 
-import com.reserveflow.reservationrequest.dto.ExtractReservationRequest;
-import com.reserveflow.reservationrequest.dto.ExtractReservationResponse;
-import com.reserveflow.reservationrequest.service.ExtractionCallerKeyResolver;
-import com.reserveflow.reservationrequest.service.ReservationRequestExtractionService;
+import com.reserveflow.reservationrequest.dto.ExtractRequest;
+import com.reserveflow.reservationrequest.dto.ExtractResponse;
+import com.reserveflow.reservationrequest.service.CallerKeyResolver;
+import com.reserveflow.reservationrequest.service.ExtractionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/reservation-requests")
 public class ReservationRequestController {
 
-    private final ReservationRequestExtractionService extractionService;
-    private final ExtractionCallerKeyResolver callerKeyResolver;
+    private final CallerKeyResolver callerKeyResolver;
+    private final ExtractionService extractionService;
 
     /**
      * 자연어 예약 요청을 받아 Python LLM 서비스로 해석하고 예약 조건 후보를 반환한다.
      */
     @PostMapping("/extract")
-    public ExtractReservationResponse extract(
-            @Valid @RequestBody ExtractReservationRequest request,
+    public ExtractResponse extract(
+            @Valid @RequestBody ExtractRequest request,
             @AuthenticationPrincipal Jwt jwt,
             HttpServletRequest httpRequest
     ) {
