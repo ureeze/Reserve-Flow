@@ -131,6 +131,7 @@
 
 ## Done
 
+- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (done: 2026-07-23, 브랜치: `docs/slack-sharing-github-actions-only`, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 - [T-029] GitHub Actions Slack 알림 step 실패 수정 (done: 2026-07-21, PR: #15 merge 완료, 브랜치: `docs/fix-actions-slack-notify`, 검증: Deploy workflow Slack 알림 성공 확인, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림 정상화)
 - [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (done: 2026-07-20, PR: #14 merge 완료, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: PR Check 성공, Deploy workflow 자동 실행 확인, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6, done: 2026-07-19, PR: #13 merge 완료, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: `.\backend\gradlew.bat test` 통과, Python 모의 structured-output 테스트 통과, Docker Compose 기반 실제 OpenAI 호출과 Spring Boot 공개 API 연동 검증 통과, Spring Boot 공개 해석 API, Python FastAPI + LangChain structured output 서비스, Redis rate limit, `PARSE_004`/`RATE_LIMIT_001`/`LLM_001` 공통 오류 포함, Jira 상태 변경: `완료` 전환 완료, Slack: `#reserve-flow-dev` 공유 시도했으나 커넥터의 외부 공유 보안 정책으로 차단)
