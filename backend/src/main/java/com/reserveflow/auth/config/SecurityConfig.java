@@ -52,7 +52,8 @@ class SecurityConfig {
 								"/api/v1/auth/signup",
 								"/api/v1/auth/login",
 								"/api/v1/auth/token/refresh",
-								"/api/v1/reservation-requests/extract"
+								"/api/v1/reservation-requests/extract",
+								"/api/v1/reservation-requests/validate"
 						).permitAll()
 						.anyRequest().authenticated()
 				)
