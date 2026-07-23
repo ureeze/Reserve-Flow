@@ -11,7 +11,6 @@
 ## Next
 
 - 없음
-- [T-008] 예약 조건 검증 API 구현 (Jira: RF-7)
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
 - [T-010] booking slot 조회 API 구현 (Jira: RF-9)
 
@@ -21,7 +20,7 @@
 
 ## Review
 
-- [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 (브랜치: `ci/actions-node24-warning`, 검증: workflow Action 버전 확인, `.\backend\gradlew.bat test` 예정, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
+- [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, 브랜치: `feature/RF-7-reservation-request-validation`, PR: https://github.com/ureeze/Reserve-Flow/pull/18, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 예정, Slack: GitHub Actions webhook 알림)
 
 ## Blocked
 
@@ -129,8 +128,22 @@
 - 상대 날짜는 서버 현재 날짜 기준으로 해석하고, 업종 추론 실패는 400으로 처리하는 기준이 반영되어 있다.
 - Notion ADR 원본과 `memory-bank/decisions.md` 인덱스에 결정을 기록한다.
 
+### T-008 / RF-7
+
+- ERD 기준 `booking_providers`, `booking_provider_business_hours` Flyway migration과 JPA Entity/Repository가 준비되어 있다.
+- `POST /api/v1/reservation-requests/validate`가 인증 없이 호출 가능하다.
+- 존재하지 않는 `bookingProviderId`는 `404 PROVIDER_001`을 반환한다.
+- 필수 값 누락은 `400 VALIDATION_004`를 반환한다.
+- 과거 날짜·시간은 `200 OK`와 `valid=false`, `VALIDATION_001` violation을 반환한다.
+- 예약 제공자 `max_party_size` 초과는 `VALIDATION_002` violation을 반환한다.
+- 등록된 영업시간을 벗어난 요청은 `VALIDATION_003` violation을 반환한다.
+- 유효한 조건은 provider timezone 기준으로 정규화된 `startsAt`을 포함한 `valid=true` 응답을 반환한다.
+- `.\backend\gradlew.bat test` 또는 합의한 검증 명령이 통과한다.
+- `memory-bank/current-state.md`와 `memory-bank/tasks.md`가 갱신된다.
+
 ## Done
 
+- [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 (done: 2026-07-21, PR: #17 merge 완료, 브랜치: `ci/actions-node24-warning`, 검증: `actions/checkout@v4`→`v6`, `actions/setup-java@v4`→`v5` 갱신 후 `./gradlew.bat test` 통과, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 - [T-029] GitHub Actions Slack 알림 step 실패 수정 (done: 2026-07-21, PR: #15 merge 완료, 브랜치: `docs/fix-actions-slack-notify`, 검증: Deploy workflow Slack 알림 성공 확인, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림 정상화)
 - [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (done: 2026-07-20, PR: #14 merge 완료, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: PR Check 성공, Deploy workflow 자동 실행 확인, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
 - [T-007] 자연어 예약 요청 해석 API 구현 (Jira: RF-6, done: 2026-07-19, PR: #13 merge 완료, 브랜치: `feature/RF-6-llm-interpretation-spike`, 검증: `.\backend\gradlew.bat test` 통과, Python 모의 structured-output 테스트 통과, Docker Compose 기반 실제 OpenAI 호출과 Spring Boot 공개 API 연동 검증 통과, Spring Boot 공개 해석 API, Python FastAPI + LangChain structured output 서비스, Redis rate limit, `PARSE_004`/`RATE_LIMIT_001`/`LLM_001` 공통 오류 포함, Jira 상태 변경: `완료` 전환 완료, Slack: `#reserve-flow-dev` 공유 시도했으나 커넥터의 외부 공유 보안 정책으로 차단)
