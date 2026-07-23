@@ -22,6 +22,7 @@
 ## Review
 
 - [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 (브랜치: `ci/actions-node24-warning`, 검증: workflow Action 버전 확인, `.\backend\gradlew.bat test` 예정, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
+- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (브랜치: `docs/slack-sharing-github-actions-only`, PR: https://github.com/ureeze/Reserve-Flow/pull/19, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 
 ## Blocked
 
