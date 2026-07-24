@@ -21,6 +21,8 @@
 ## Review
 
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, 브랜치: `feature/RF-7-reservation-request-validation`, PR: https://github.com/ureeze/Reserve-Flow/pull/18, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 예정, Slack: GitHub Actions webhook 알림)
+- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (브랜치: `docs/slack-sharing-github-actions-only`, PR: https://github.com/ureeze/Reserve-Flow/pull/19, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
+
 
 ## Blocked
 

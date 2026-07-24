@@ -8,7 +8,9 @@ ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API �
 
 ## 현재 진행 중 작업
 
+
 - [T-008] RF-7 예약 조건 검증 API 구현: PR #18 생성 완료, 리뷰/merge 대기
+- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리: PR #19 생성 완료, 리뷰/merge 대기
 
 ## 최근 완료 작업
 
@@ -18,6 +20,11 @@ ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API �
 - RF-7 검증: `.\backend\gradlew.bat test` 통과 (신규 테스트 6건 포함)
 - RF-7 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-7-reservation-request-validation` 브랜치 생성
 - GitHub Actions Node.js 20 deprecation 경고 수정 완료: PR #17 merge 후 `actions/checkout@v4`→`v6`, `actions/setup-java@v4`→`v5`로 Action 버전 갱신 (T-030)
+
+- [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 PR 검토 중
+- T-031 GitHub PR 생성: https://github.com/ureeze/Reserve-Flow/pull/19
+- Slack 공유 정책 정리: Codex/클로드 코드의 직접 Slack 전송을 전면 폐지하고 GitHub Actions(`pr-check.yml`, `deploy.yml`)가 전담하도록 `AGENTS.md` Slack 공유 규칙과 작업 자동화 범위를 재정리 (T-031)
+
 - RF-6 후속 리팩터링 완료: PR #16 squash merge 후 자연어 추출 API 관련 클래스명을 짧은 이름으로 정리
 - GitHub Actions Slack 알림 step 실패 수정 완료: PR #15 squash merge 후 `STATUS_TEXT` 환경변수 전달과 알림 step `continue-on-error` 설정 반영
 - GitHub Actions 자동화 완료: PR #14 merge 후 PR Check 성공과 Deploy workflow 자동 실행 확인
