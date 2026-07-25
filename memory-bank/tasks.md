@@ -20,7 +20,7 @@
 
 ## Review
 
-- [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, 브랜치: `feature/RF-55-validation-service-comments`, PR: https://github.com/ureeze/Reserve-Flow/pull/20, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 예정, Slack: GitHub Actions webhook 알림)
+- [T-033] Jira `완료` 전환을 GitHub for Jira 자동화로 전환하고 `AGENTS.md` Jira 규칙 갱신 (브랜치: `docs/jira-auto-complete-on-merge`, PR: 생성 예정, 검증: 문서/설정 변경만이라 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 
 
 ## Blocked
@@ -144,6 +144,7 @@
 
 ## Done
 
+- [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, done: 2026-07-25, PR: #20 merge 완료, 브랜치: `feature/RF-55-validation-service-comments`, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `완료` 전환 완료, Slack: GitHub Actions webhook 알림)
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, done: 2026-07-25, PR: #18 merge 완료, 브랜치: `feature/RF-7-reservation-request-validation`, 검증: `.\backend\gradlew.bat test` 통과(신규 테스트 6건), `booking_providers`/`booking_provider_business_hours` 마이그레이션·엔티티·Repository, `POST /api/v1/reservation-requests/validate`, `VALIDATION_001~003`·`404 PROVIDER_001` 처리 포함, Jira 상태 변경: `완료` 전환 완료, Slack: GitHub Actions webhook 알림)
 - [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (done: 2026-07-23, PR: #19 merge 완료, 브랜치: `docs/slack-sharing-github-actions-only`, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 - [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 (done: 2026-07-21, PR: #17 merge 완료, 브랜치: `ci/actions-node24-warning`, 검증: `actions/checkout@v4`→`v6`, `actions/setup-java@v4`→`v5` 갱신 후 `./gradlew.bat test` 통과, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
