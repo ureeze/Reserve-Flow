@@ -2,8 +2,11 @@ package com.reserveflow.reservationrequest.controller;
 
 import com.reserveflow.reservationrequest.dto.ExtractRequest;
 import com.reserveflow.reservationrequest.dto.ExtractResponse;
+import com.reserveflow.reservationrequest.dto.ValidateRequest;
+import com.reserveflow.reservationrequest.dto.ValidateResponse;
 import com.reserveflow.reservationrequest.service.CallerKeyResolver;
 import com.reserveflow.reservationrequest.service.ExtractionService;
+import com.reserveflow.reservationrequest.service.ReservationRequestValidationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 사용자의 자연어 예약 요청을 구조화된 예약 조건으로 변환하는 공개 API이다.
+ * 사용자의 자연어 예약 요청을 구조화된 예약 조건으로 변환하고 검증하는 공개 API이다.
  */
 @RequiredArgsConstructor
 @RestController
@@ -24,6 +27,7 @@ public class ReservationRequestController {
 
     private final CallerKeyResolver callerKeyResolver;
     private final ExtractionService extractionService;
+    private final ReservationRequestValidationService validationService;
 
     /**
      * 자연어 예약 요청을 받아 Python LLM 서비스로 해석하고 예약 조건 후보를 반환한다.
@@ -39,5 +43,13 @@ public class ReservationRequestController {
 
         // 호출 제한 확인, LLM 호출, 응답 검증은 서비스 계층에 위임한다.
         return extractionService.extract(request, callerKey);
+    }
+
+    /**
+     * 구조화된 예약 조건이 예약 제공자의 운영 정책을 만족하는지 검증한다.
+     */
+    @PostMapping("/validate")
+    public ValidateResponse validate(@Valid @RequestBody ValidateRequest request) {
+        return validationService.validate(request);
     }
 }
