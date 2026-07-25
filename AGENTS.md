@@ -92,7 +92,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 진행 중 의미 있는 중간 결과가 생기면 Jira 댓글로 요약할 수 있다.
 - 구현과 push가 완료되었지만 GitHub PR이 아직 없으면 Jira 상태는 `진행 중`을 유지한다.
 - GitHub PR을 생성하면 Jira 티켓에 PR 링크와 검증 결과를 댓글로 남기고 상태를 `검토 중`으로 변경한다.
-- PR merge 또는 사용자 승인 후 Jira 상태를 `완료`로 변경한다.
+- PR이 `main`에 merge되면 Jira 자동화(GitHub for Jira 연동)가 해당 이슈를 `완료`로 자동 전환한다. Codex/클로드 코드는 머지 후 `완료` 전환을 수동으로 수행하지 않는다. 단, 작업 착수 시 `진행 중`, PR 생성 시 `검토 중` 전환은 계속 Codex/클로드 코드가 수행한다.
 - Jira 댓글에는 작업 요약, 검증 결과, PR 링크를 남긴다.
 
 ## GitHub PR 규칙
@@ -105,7 +105,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - PR 생성 전에는 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 옮기고 PR 링크, 검증 결과, Jira 상태를 기록한다.
 - PR merge는 사용자가 GitHub UI에서 직접 수행하는 것을 기본 원칙으로 한다.
 - Codex/클로드 코드는 PR merge 전 변경 요약, 검증 결과, Jira 상태, merge 전 확인 사항을 정리하고 사용자에게 GitHub UI에서 merge할 수 있도록 안내한다.
-- 사용자가 PR merge 완료를 알려주면 Codex/클로드 코드는 로컬 `main` 최신화, PR/Jira 상태 확인, Memory Bank 완료 상태 확인, 다음 작업 브랜치 준비를 수행한다.
+- 사용자가 PR merge 완료를 알려주면 Codex/클로드 코드는 로컬 `main` 최신화, PR/Jira 상태 확인, Memory Bank 완료 상태 확인, 다음 작업 브랜치 준비를 수행한다. 이때 Jira `완료` 전환은 자동화가 처리하므로 Codex/클로드 코드는 전환 여부를 확인만 한다.
 - 사용자가 명시적으로 요청한 예외 상황이 아니라면 Codex/클로드 코드가 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
 - PR merge 이후 Memory Bank 상태 반영만을 위한 별도 커밋과 원격 push는 수행하지 않는다.
 - PR merge 후 `memory-bank/tasks.md`에 해당 작업이 `Review` 또는 `In Progress`로 남아 있으면 불일치로 보고하고, `main` 직접 커밋 대신 다음 기능 브랜치 또는 별도 문서 브랜치 PR로 `Done` 반영 계획을 제시한다.

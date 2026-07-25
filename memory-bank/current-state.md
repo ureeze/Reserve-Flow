@@ -8,10 +8,12 @@ ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API �
 
 ## 현재 진행 중 작업
 
-- [T-032] RF-55 예약 조건 검증 서비스 메서드 주석 보강: PR #20 생성 완료, 리뷰/merge 대기
+- [T-033] Jira `완료` 전환을 GitHub for Jira 자동화로 전환: `AGENTS.md` Jira 규칙 갱신, PR 생성 예정
 
 ## 최근 완료 작업
 
+- Jira 자동화 도입: GitHub for Jira 연동 + Jira Automation "PR 병합 시 이슈 완료" 규칙 활성화. 이후 머지 후 `완료` 전환은 자동화가 담당 (T-033)
+- RF-55 완료: PR #20 merge 후 Jira 상태를 `완료`로 전환 (T-032)
 - RF-7 완료: PR #18 merge 후 Jira 상태를 `완료`로 전환 (T-008)
 - Slack 공유 정책 정리 완료: PR #19 merge (T-031)
 - RF-55 GitHub PR 생성: https://github.com/ureeze/Reserve-Flow/pull/20
