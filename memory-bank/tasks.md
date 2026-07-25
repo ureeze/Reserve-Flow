@@ -16,7 +16,7 @@
 
 ## In Progress
 
-- 없음
+- [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, 대상: `ReservationRequestValidationService`의 `validate`/`isOutsideBusinessHours`/`toViolation`, 검증: `.\backend\gradlew.bat test` 예정, Jira 상태 변경: `진행 중` 전환 완료, Slack: GitHub Actions webhook 알림)
 
 ## Review
 
