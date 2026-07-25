@@ -16,12 +16,11 @@
 
 ## In Progress
 
-- [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, 대상: `ReservationRequestValidationService`의 `validate`/`isOutsideBusinessHours`/`toViolation`, 검증: `.\backend\gradlew.bat test` 예정, Jira 상태 변경: `진행 중` 전환 완료, Slack: GitHub Actions webhook 알림)
+- 없음
 
 ## Review
 
-- [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, 브랜치: `feature/RF-7-reservation-request-validation`, PR: https://github.com/ureeze/Reserve-Flow/pull/18, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 예정, Slack: GitHub Actions webhook 알림)
-- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (브랜치: `docs/slack-sharing-github-actions-only`, PR: https://github.com/ureeze/Reserve-Flow/pull/19, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
+- [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, 브랜치: `feature/RF-55-validation-service-comments`, PR: https://github.com/ureeze/Reserve-Flow/pull/20, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 예정, Slack: GitHub Actions webhook 알림)
 
 
 ## Blocked
@@ -145,6 +144,8 @@
 
 ## Done
 
+- [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, done: 2026-07-25, PR: #18 merge 완료, 브랜치: `feature/RF-7-reservation-request-validation`, 검증: `.\backend\gradlew.bat test` 통과(신규 테스트 6건), `booking_providers`/`booking_provider_business_hours` 마이그레이션·엔티티·Repository, `POST /api/v1/reservation-requests/validate`, `VALIDATION_001~003`·`404 PROVIDER_001` 처리 포함, Jira 상태 변경: `완료` 전환 완료, Slack: GitHub Actions webhook 알림)
+- [T-031] Slack 공유 정책을 GitHub Actions 전담으로 정리 (done: 2026-07-23, PR: #19 merge 완료, 브랜치: `docs/slack-sharing-github-actions-only`, 검증: 문서 변경만 있어 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 - [T-030] GitHub Actions Node.js 20 deprecation 경고 수정 (done: 2026-07-21, PR: #17 merge 완료, 브랜치: `ci/actions-node24-warning`, 검증: `actions/checkout@v4`→`v6`, `actions/setup-java@v4`→`v5` 갱신 후 `./gradlew.bat test` 통과, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림)
 - [T-029] GitHub Actions Slack 알림 step 실패 수정 (done: 2026-07-21, PR: #15 merge 완료, 브랜치: `docs/fix-actions-slack-notify`, 검증: Deploy workflow Slack 알림 성공 확인, Jira 상태 변경: N/A, Slack: GitHub Actions webhook 알림 정상화)
 - [T-028] GitHub Actions 테스트/배포 Slack 알림 자동화 구조 추가 (done: 2026-07-20, PR: #14 merge 완료, 브랜치: `docs/update-memory-bank-after-rf6`, 검증: PR Check 성공, Deploy workflow 자동 실행 확인, Jira 상태 변경: N/A, Slack: GitHub Actions `SLACK_WEBHOOK_URL` Secret 기반 자동 알림으로 전환)
