@@ -10,8 +10,6 @@ jobs:
   deploy:
     name: Deploy Placeholder
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Checkout
@@ -33,38 +31,3 @@ jobs:
         run: |
           echo "No deployment target is configured yet."
           echo "Replace this step when the production deployment target is decided."
-
-      - name: Notify Slack
-        if: always() && env.SLACK_WEBHOOK_URL != ''
-        continue-on-error: true
-        env:
-          JOB_STATUS: ${{ job.status }}
-        run: |
-          if [ "$JOB_STATUS" = "success" ]; then
-            export STATUS_TEXT="success"
-          else
-            export STATUS_TEXT="failure"
-          fi
-
-          python - <<'PY' > slack-payload.json
-          import json
-          import os
-
-          run_url = (
-              f"{os.environ['GITHUB_SERVER_URL']}/"
-              f"{os.environ['GITHUB_REPOSITORY']}/actions/runs/"
-              f"{os.environ['GITHUB_RUN_ID']}"
-          )
-          text = (
-              f"Deploy Actions {os.environ['STATUS_TEXT']}\n"
-              f"- Branch: {os.environ['GITHUB_REF_NAME']}\n"
-              f"- Commit: {os.environ['GITHUB_SHA']}\n"
-              f"- Workflow: {os.environ['GITHUB_WORKFLOW']}\n"
-              f"- Run: {run_url}"
-          )
-          print(json.dumps({"text": text}, ensure_ascii=False))
-          PY
-
-          curl -X POST -H 'Content-type: application/json' \
-            --data @slack-payload.json \
-            "$SLACK_WEBHOOK_URL"

@@ -9,8 +9,6 @@ jobs:
   backend-test:
     name: Backend Test
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Checkout
@@ -27,34 +25,3 @@ jobs:
         run: |
           chmod +x ./gradlew
           ./gradlew test
-
-      - name: Notify Slack
-        if: always() && env.SLACK_WEBHOOK_URL != ''
-        continue-on-error: true
-        env:
-          JOB_STATUS: ${{ job.status }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: |
-          if [ "$JOB_STATUS" = "success" ]; then
-            export STATUS_TEXT="success"
-          else
-            export STATUS_TEXT="failure"
-          fi
-
-          python - <<'PY' > slack-payload.json
-          import json
-          import os
-
-          text = (
-              f"GitHub Actions test {os.environ['STATUS_TEXT']}\n"
-              f"- PR: {os.environ['PR_TITLE']}\n"
-              f"- URL: {os.environ['PR_URL']}\n"
-              f"- Workflow: {os.environ['GITHUB_WORKFLOW']}"
-          )
-          print(json.dumps({"text": text}, ensure_ascii=False))
-          PY
-
-          curl -X POST -H 'Content-type: application/json' \
-            --data @slack-payload.json \
-            "$SLACK_WEBHOOK_URL"

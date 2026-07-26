@@ -8,10 +8,11 @@ ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API �
 
 ## 현재 진행 중 작업
 
-- [T-033] Jira `완료` 전환을 GitHub for Jira 자동화로 전환: `AGENTS.md` Jira 규칙 갱신, PR 생성 예정
+- [T-034] GitHub Actions → Slack 제거 및 Slack 알림을 GitHub·Jira 공식 앱으로 일원화: `pr-check.yml`/`deploy.yml` Slack step 제거, `AGENTS.md` Slack 규칙 재작성, PR 생성 예정
 
 ## 최근 완료 작업
 
+- Slack 알림 연동 정비: Slack↔Jira, Slack↔GitHub 공식 앱 연결·검증 완료. GitHub Actions의 Slack 전송은 제거하고 알림을 공식 앱으로 일원화 (T-034)
 - Jira 자동화 도입: GitHub for Jira 연동 + Jira Automation "PR 병합 시 이슈 완료" 규칙 활성화. 이후 머지 후 `완료` 전환은 자동화가 담당 (T-033)
 - RF-55 완료: PR #20 merge 후 Jira 상태를 `완료`로 전환 (T-032)
 - RF-7 완료: PR #18 merge 후 Jira 상태를 `완료`로 전환 (T-008)
