@@ -66,7 +66,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성 + Jira 상태 변경
 
-기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub Actions가 전담하므로 Codex/클로드 코드의 작업 자동화 범위에 포함하지 않는다.
+기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 Codex/클로드 코드의 작업 자동화 범위에 포함하지 않는다.
 
 ## Git 규칙
 
@@ -113,15 +113,17 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 
 ## Slack 공유 규칙
 
-- Slack 알림은 전부 GitHub Actions 워크플로우(`pr-check.yml`, `deploy.yml`)가 전담한다.
-- Codex/클로드 코드는 어떤 상황에서도 Slack을 직접 전송하지 않는다.
-- GitHub Actions Slack 알림은 Repository Actions Secret `SLACK_WEBHOOK_URL`을 사용하며, 설정되지 않은 경우 테스트/배포 자체는 수행하되 Slack 알림 step만 건너뛴다.
-- GitHub Actions 테스트 결과 Slack 메시지는 PR 제목, PR 링크, 테스트 성공/실패, workflow 이름을 포함한다.
-- 배포 Actions 결과 Slack 메시지는 브랜치, 커밋, 배포 성공/실패, workflow run 링크를 포함한다.
-- 채널은 목적별로 분리하는 것을 목표로 한다. 현재는 `SLACK_WEBHOOK_URL` 하나로 모든 알림이 전송되며, 채널을 분리하려면 워크플로우별 Webhook Secret(`SLACK_WEBHOOK_URL_DEV`, `SLACK_WEBHOOK_URL_DEPLOY`, `SLACK_WEBHOOK_URL_ALERTS` 등)을 추가하고 각 워크플로우가 해당 Secret을 사용하도록 변경해야 한다.
-  - `#reserve-flow-dev`: PR 테스트 결과 등 개발 관련 알림 (`pr-check.yml`)
-  - `#reserve-flow-deploy`: 배포 결과 알림 (`deploy.yml`)
-  - `#reserve-flow-alerts`: 장애·긴급 대응 알림. 현재는 이를 트리거하는 워크플로우가 없다.
+- Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당한다. Codex/클로드 코드도, GitHub Actions 워크플로우도 Slack을 직접 전송하지 않는다.
+- 이벤트별 알림 출처는 하나로 통일한다.
+  - **Jira 이벤트**(이슈 생성, 담당자 변경, 상태 변경, 댓글, 멘션) → **Slack ↔ Jira 앱**(Jira Cloud for Slack). 채널 알림은 상태 변경 중심으로 구독하고, 댓글 구독은 PR 링크 자동 댓글과 중복되므로 기본 비활성으로 둔다. 멘션은 개인 DM으로 전달된다.
+  - **GitHub 이벤트**(PR 생성/리뷰/머지, CI 워크플로우 결과, 배포, 릴리스) → **Slack ↔ GitHub 앱**. `pulls`, `reviews`, `workflows`, `deployments`, `releases`를 구독하고, `issues`·`commits` 등 노이즈성 이벤트는 구독하지 않는다.
+- Jira ↔ GitHub 연동(GitHub for Jira)은 각 이슈 Development 패널에 브랜치·커밋·PR·머지·배포를 연결하며, Slack 알림은 보내지 않는다.
+- 채널 매핑
+  - `#reserve-flow-dev`: Jira 상태 변경, GitHub PR/리뷰/머지, CI 워크플로우 결과
+  - `#reserve-flow-deploy`: GitHub 배포/릴리스 알림(GitHub 앱의 `deployments` 구독)
+  - `#reserve-flow-alerts`: 장애·긴급 대응 알림. 현재는 이를 트리거하는 소스가 없다.
+- 알림 앱 연결과 구독 설정은 Slack/GitHub/Jira UI에서 관리하며 저장소 코드에는 포함하지 않는다. GitHub Actions 워크플로우(`pr-check.yml`, `deploy.yml`)는 테스트·배포만 수행하고 Slack 전송 step을 두지 않는다.
+- 알려진 중복: PR 생성 시 GitHub 앱(PR opened) + Jira 앱(상태 `검토 중`), PR 머지 시 GitHub 앱(merged) + Jira 앱(상태 `완료`)이 각각 두 번 알릴 수 있다. 성격이 달라 기본은 그대로 두며, 과하면 한쪽 구독을 끈다.
 
 ## 테스트 규칙
 
