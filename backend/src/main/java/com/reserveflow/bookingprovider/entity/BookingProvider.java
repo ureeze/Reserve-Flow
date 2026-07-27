@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -27,9 +29,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "booking_providers")
 public class BookingProvider {
 
+    /**
+     * DB 내부 조인·영속성 식별용 기본키. 외부 API/이벤트에는 노출하지 않는다.
+     */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    /**
+     * API·이벤트·로그에 노출하는 외부 식별자(UUIDv7). 순차 ID 노출을 피한다. (ADR-005)
+     */
     @Builder.Default
-    private UUID id = UUID.randomUUID();
+    @Column(name = "public_id", nullable = false, unique = true)
+    private UUID publicId = UUID.randomUUID();
 
     @Column(nullable = false)
     private String name;

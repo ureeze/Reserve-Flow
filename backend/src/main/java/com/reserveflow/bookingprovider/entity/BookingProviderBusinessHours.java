@@ -2,12 +2,13 @@ package com.reserveflow.bookingprovider.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.time.LocalTime;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,11 +29,14 @@ import lombok.NoArgsConstructor;
 public class BookingProviderBusinessHours {
 
     @Id
-    @Builder.Default
-    private UUID id = UUID.randomUUID();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    /**
+     * 부모 예약 제공자의 내부 PK(bigint)를 참조하는 물리 FK. (ADR-005)
+     */
     @Column(name = "booking_provider_id", nullable = false)
-    private UUID bookingProviderId;
+    private Long bookingProviderId;
 
     /**
      * 0=일요일 기준 요일. {@link java.time.DayOfWeek}의 1=월요일과 다르므로 변환이 필요하다.

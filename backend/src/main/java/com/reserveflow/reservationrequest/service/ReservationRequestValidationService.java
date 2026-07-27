@@ -37,8 +37,8 @@ public class ReservationRequestValidationService {
      * UTC 시각으로 정규화한 결과를 valid=true와 함께 반환한다.
      */
     public ValidateResponse validate(ValidateRequest request) {
-        // 검증 기준이 되는 예약 제공자를 조회한다. 없으면 404 PROVIDER_001로 처리한다.
-        BookingProvider provider = bookingProviderRepository.findById(request.bookingProviderId())
+        // 검증 기준이 되는 예약 제공자를 외부 식별자(public_id, UUID)로 조회한다. 없으면 404 PROVIDER_001로 처리한다.
+        BookingProvider provider = bookingProviderRepository.findByPublicId(request.bookingProviderId())
                 .orElseThrow(() -> new ApiException(ErrorCode.PROVIDER_NOT_FOUND));
 
         // 요청의 현지 날짜/시간을 제공자 timezone 기준 절대 시각(UTC)으로 변환한다.
@@ -67,8 +67,9 @@ public class ReservationRequestValidationService {
         }
 
         // 모든 검증을 통과하면 후속 예약 흐름이 사용할 정규화된 조건을 만들어 반환한다.
+        // 외부 응답에는 내부 id(Long)가 아니라 public_id(UUID)를 노출한다.
         Normalized normalized = new Normalized(
-                provider.getId(),
+                provider.getPublicId(),
                 startsAt,
                 request.partySize(),
                 provider.getTimezone()
