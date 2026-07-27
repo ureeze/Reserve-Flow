@@ -8,10 +8,11 @@ ReserveFlow MVP 공통 인프라, 자연어 예약 요청 해석 API, 예약 조
 
 ## 현재 진행 중 작업
 
-- [T-036] 문서 정합성 점검·동기화: `decisions.md`(ADR-005 제목)·`tech-stack.md`(식별자 방침)·`current-state.md`(마일스톤) 갱신, ERD 4.4~4.13 상세표를 bigint id + uuid public_id 구조로 동기화. PR 생성 예정
+- [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록: RF-41 스토리 정정, AGENTS.md Jira 규칙 추가, CI/연동 완료 작업 RF-57~59 소급 등록. PR 생성 예정
 
 ## 최근 완료 작업
 
+- Jira 정비: RF-41(대기열 취소 API)을 작업→스토리로 정정, 미등록 기능 작업 Jira 선등록 규칙과 타입 컨벤션을 AGENTS.md에 명문화, CI/배포(RF-57)·Jira 연동 자동화(RF-58)·Slack 알림 연동(RF-59)을 EPIC-08 하위 완료 티켓으로 소급 등록 (T-037)
 - 문서 정합성 점검: memory-bank 3개 파일 낡은 내용 갱신, ERD 4.2~4.13 테이블 정의서 전체를 새 식별자 구조로 동기화 (T-036)
 - RF-56 완료: PR #24 merge 후 Jira 자동화(GitHub for Jira)가 `완료`로 자동 전환 — 자동화 첫 실전 동작 확인 (T-035)
 - RF-56 진행: ADR-005 개정(내부 bigint PK + 외부 uuid public_id) 및 ERD(2.2·물리 ERD·6.1·4.2·4.3) 동기화, ADR-008 Slack 현행화
