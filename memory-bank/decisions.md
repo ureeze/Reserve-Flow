@@ -12,7 +12,7 @@ ADR 원본은 Notion ADR 문서를 기준으로 한다.
 - ADR-002 Kafka + Transactional Outbox 기반 비동기 처리
 - ADR-003 PostgreSQL + Redis 역할 분리
 - ADR-004 범용 예약 제공자 모델 사용
-- ADR-005 주요 엔티티 PK로 UUID 사용
+- ADR-005 주요 엔티티 식별자 전략 (내부 Long PK + 외부 UUID)
 - ADR-006 Hold와 Promotion Hold 만료 시간 5분
 - ADR-007 Spring Boot 백엔드 우선 개발
 - ADR-008 Jira 기반 개발 진행 및 GitHub PR 운영 흐름
