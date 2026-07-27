@@ -2,16 +2,18 @@
 
 ## 현재 마일스톤
 
-ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API 구현이 완료되었다.
+ReserveFlow MVP 공통 인프라, 자연어 예약 요청 해석 API, 예약 조건 검증 API가 완료되었고, 협업 도구 연동(Jira↔GitHub, Slack↔Jira, Slack↔GitHub)과 엔티티 식별자 전략(내부 `bigint id` + 외부 `uuid public_id`)까지 정비되었다.
 
-문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트에는 Notion Jira 작업 문서 기준 Epic과 하위 티켓이 `RF-1` ~ `RF-54`까지 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. Python FastAPI + LangChain 기반 자연어 예약 요청 해석 API와 Redis rate limit은 PR #13 merge 후 Jira `RF-6` 완료 상태로 반영되었다.
+문서 작업은 MVP 개발 시작 기준으로 정리 완료되었고, Jira 프로젝트에는 Notion Jira 작업 문서 기준 Epic과 하위 티켓이 `RF-1` ~ `RF-56`까지 생성되어 있다. `backend/`에 Spring Boot 백엔드 프로젝트 기본 구조, PostgreSQL/Flyway 연결 기반, Redis 연결 기본 설정, JWT 인증 기본 구현, 공통 오류 응답과 Error Catalog, Transactional Outbox 기본 구조가 준비되었다. Python FastAPI + LangChain 기반 자연어 예약 요청 해석 API와 Redis rate limit은 PR #13 merge 후 Jira `RF-6` 완료 상태로 반영되었다. 이후 예약 조건 검증 API(RF-7)와 엔티티 식별자 전략 통일(RF-56)까지 완료했고, Slack↔Jira·Slack↔GitHub·Jira↔GitHub 알림 연동과 "PR 머지 시 Jira 자동 완료 전환"을 구성했다.
 
 ## 현재 진행 중 작업
 
-- [T-035] RF-56 엔티티 식별자 전략 통일: `booking_providers`·`booking_provider_business_hours`를 내부 `bigint id` + 외부 `uuid public_id`로 전환, 검증 서비스/테스트/ERD 반영. 로컬 테스트 통과, GitHub PR·Jira 검토 중 전환은 사용자 확인 대기
+- [T-036] 문서 정합성 점검·동기화: `decisions.md`(ADR-005 제목)·`tech-stack.md`(식별자 방침)·`current-state.md`(마일스톤) 갱신, ERD 4.4~4.13 상세표를 bigint id + uuid public_id 구조로 동기화. PR 생성 예정
 
 ## 최근 완료 작업
 
+- 문서 정합성 점검: memory-bank 3개 파일 낡은 내용 갱신, ERD 4.2~4.13 테이블 정의서 전체를 새 식별자 구조로 동기화 (T-036)
+- RF-56 완료: PR #24 merge 후 Jira 자동화(GitHub for Jira)가 `완료`로 자동 전환 — 자동화 첫 실전 동작 확인 (T-035)
 - RF-56 진행: ADR-005 개정(내부 bigint PK + 외부 uuid public_id) 및 ERD(2.2·물리 ERD·6.1·4.2·4.3) 동기화, ADR-008 Slack 현행화
 - RF-56 진행: `booking_providers`·`booking_provider_business_hours` 마이그레이션(V3·V4 재작성)·엔티티·Repository를 `bigint id + uuid public_id`로 전환, `findByPublicId` 외부 조회 적용, `.\backend\gradlew.bat test` 통과
 - RF-56 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-56-entity-id-strategy` 브랜치 생성

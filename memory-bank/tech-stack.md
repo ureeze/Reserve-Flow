@@ -18,8 +18,9 @@
 ## Database
 
 - PostgreSQL 18.4 기준
-- `members`는 내부 PK `Long id`와 외부/JWT 식별자 `UUID publicId`를 분리한다.
-- 예약 도메인의 외부 식별자는 UUID 기반으로 설계하며, UUIDv7 생성 방식은 실제 구현 시 결정한다.
+- 주요 엔티티는 내부 PK로 `bigint id`(DB identity), 외부 노출 식별자로 `uuid public_id`(UUIDv7, UNIQUE)를 분리한다. 물리 FK는 내부 `bigint id`를 참조한다. (ADR-005)
+- 예외: `outbox_events.id`는 Kafka 이벤트 멱등 id라 `uuid` PK를 유지한다. `status_histories`·`audit_logs`·`idempotency_keys` 등 외부 노출이 없는 보조 테이블은 `public_id`를 두지 않으며, 다형 참조(`entity_id`/`aggregate_id`)는 대상 엔티티의 `public_id`(uuid)를 가리킨다.
+- `members`는 이미 이 패턴(`Long id` + `UUID publicId`)을 따른다.
 - 운영 환경 Hibernate `ddl-auto`는 `validate`
 
 ## Cache / Queue / Async
