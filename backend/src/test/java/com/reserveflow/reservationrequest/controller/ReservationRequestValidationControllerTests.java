@@ -97,10 +97,10 @@ class ReservationRequestValidationControllerTests {
                                   "reservationTime": "19:00",
                                   "partySize": 4
                                 }
-                                """.formatted(openProvider.getId(), futureDate())))
+                                """.formatted(openProvider.getPublicId(), futureDate())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.valid").value(true))
-                .andExpect(jsonPath("$.normalized.bookingProviderId").value(openProvider.getId().toString()))
+                .andExpect(jsonPath("$.normalized.bookingProviderId").value(openProvider.getPublicId().toString()))
                 .andExpect(jsonPath("$.normalized.partySize").value(4))
                 .andExpect(jsonPath("$.normalized.timezone").value("Asia/Seoul"))
                 .andExpect(jsonPath("$.violations").isEmpty());
@@ -141,7 +141,7 @@ class ReservationRequestValidationControllerTests {
                                   "reservationTime": "19:00",
                                   "partySize": 4
                                 }
-                                """.formatted(openProvider.getId(), pastDate)))
+                                """.formatted(openProvider.getPublicId(), pastDate)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.valid").value(false))
                 .andExpect(jsonPath("$.normalized").doesNotExist())
@@ -163,7 +163,7 @@ class ReservationRequestValidationControllerTests {
                                   "reservationTime": "19:00",
                                   "partySize": 20
                                 }
-                                """.formatted(openProvider.getId(), futureDate())))
+                                """.formatted(openProvider.getPublicId(), futureDate())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.valid").value(false))
                 .andExpect(jsonPath("$.violations[0].code").value("VALIDATION_002"))
@@ -184,7 +184,7 @@ class ReservationRequestValidationControllerTests {
                                   "reservationTime": "19:00",
                                   "partySize": 4
                                 }
-                                """.formatted(narrowHoursProvider.getId(), futureDate())))
+                                """.formatted(narrowHoursProvider.getPublicId(), futureDate())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.valid").value(false))
                 .andExpect(jsonPath("$.violations[0].code").value("VALIDATION_003"))

@@ -8,10 +8,13 @@ ReserveFlow MVP 공통 인프라 구현과 자연어 예약 요청 해석 API �
 
 ## 현재 진행 중 작업
 
-- [T-034] GitHub Actions → Slack 제거 및 Slack 알림을 GitHub·Jira 공식 앱으로 일원화: `pr-check.yml`/`deploy.yml` Slack step 제거, `AGENTS.md` Slack 규칙 재작성, PR 생성 예정
+- [T-035] RF-56 엔티티 식별자 전략 통일: `booking_providers`·`booking_provider_business_hours`를 내부 `bigint id` + 외부 `uuid public_id`로 전환, 검증 서비스/테스트/ERD 반영. 로컬 테스트 통과, GitHub PR·Jira 검토 중 전환은 사용자 확인 대기
 
 ## 최근 완료 작업
 
+- RF-56 진행: ADR-005 개정(내부 bigint PK + 외부 uuid public_id) 및 ERD(2.2·물리 ERD·6.1·4.2·4.3) 동기화, ADR-008 Slack 현행화
+- RF-56 진행: `booking_providers`·`booking_provider_business_hours` 마이그레이션(V3·V4 재작성)·엔티티·Repository를 `bigint id + uuid public_id`로 전환, `findByPublicId` 외부 조회 적용, `.\backend\gradlew.bat test` 통과
+- RF-56 착수: Jira 상태를 `진행 중`으로 전환하고 `feature/RF-56-entity-id-strategy` 브랜치 생성
 - Slack 알림 연동 정비: Slack↔Jira, Slack↔GitHub 공식 앱 연결·검증 완료. GitHub Actions의 Slack 전송은 제거하고 알림을 공식 앱으로 일원화 (T-034)
 - Jira 자동화 도입: GitHub for Jira 연동 + Jira Automation "PR 병합 시 이슈 완료" 규칙 활성화. 이후 머지 후 `완료` 전환은 자동화가 담당 (T-033)
 - RF-55 완료: PR #20 merge 후 Jira 상태를 `완료`로 전환 (T-032)

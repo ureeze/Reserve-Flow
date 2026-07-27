@@ -20,7 +20,7 @@
 
 ## Review
 
-- [T-034] GitHub Actions → Slack 제거 및 Slack 알림을 GitHub·Jira 공식 앱으로 일원화 (브랜치: `ci/remove-actions-slack-unify-github-app`, PR: 생성 예정, 검증: `pr-check.yml`/`deploy.yml` Slack step 제거·YAML 확인, Jira 상태 변경: N/A, Slack: GitHub/Jira 공식 앱)
+- [T-035] 엔티티 식별자 전략을 Long 내부 PK + UUID 외부 식별자로 통일 (Jira: RF-56, 브랜치: `feature/RF-56-entity-id-strategy`, PR: https://github.com/ureeze/Reserve-Flow/pull/24, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 완료, Slack: GitHub/Jira 공식 앱)
 
 
 ## Blocked
@@ -144,6 +144,7 @@
 
 ## Done
 
+- [T-034] GitHub Actions → Slack 제거 및 Slack 알림을 GitHub·Jira 공식 앱으로 일원화 (done: 2026-07-26, PR: #23 merge 완료, 브랜치: `ci/remove-actions-slack-unify-github-app`, 검증: `pr-check.yml`/`deploy.yml` Slack step 제거·YAML 확인, Jira 상태 변경: N/A, Slack: GitHub/Jira 공식 앱)
 - [T-033] Jira `완료` 전환을 GitHub for Jira 자동화로 전환하고 `AGENTS.md` Jira 규칙 갱신 (done: 2026-07-25, PR: #21 merge 완료, 브랜치: `docs/jira-auto-complete-on-merge`, 검증: 문서/설정 변경만이라 별도 테스트 불필요, Jira 상태 변경: N/A, Slack: N/A)
 - [T-032] 예약 조건 검증 서비스 메서드 주석 보강 (Jira: RF-55, done: 2026-07-25, PR: #20 merge 완료, 브랜치: `feature/RF-55-validation-service-comments`, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `완료` 전환 완료, Slack: GitHub Actions webhook 알림)
 - [T-008] 예약 조건 검증 API 구현 (Jira: RF-7, done: 2026-07-25, PR: #18 merge 완료, 브랜치: `feature/RF-7-reservation-request-validation`, 검증: `.\backend\gradlew.bat test` 통과(신규 테스트 6건), `booking_providers`/`booking_provider_business_hours` 마이그레이션·엔티티·Repository, `POST /api/v1/reservation-requests/validate`, `VALIDATION_001~003`·`404 PROVIDER_001` 처리 포함, Jira 상태 변경: `완료` 전환 완료, Slack: GitHub Actions webhook 알림)
