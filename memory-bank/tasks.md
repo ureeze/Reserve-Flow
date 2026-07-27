@@ -16,11 +16,11 @@
 
 ## In Progress
 
-- [T-035] 엔티티 식별자 전략을 Long 내부 PK + UUID 외부 식별자로 통일 (Jira: RF-56, 브랜치: `feature/RF-56-entity-id-strategy`, 검증: `.\backend\gradlew.bat test` 통과, GitHub PR/Jira 검토 중 전환: 사용자 확인 대기)
+- 없음
 
 ## Review
 
-- 없음
+- [T-035] 엔티티 식별자 전략을 Long 내부 PK + UUID 외부 식별자로 통일 (Jira: RF-56, 브랜치: `feature/RF-56-entity-id-strategy`, PR: https://github.com/ureeze/Reserve-Flow/pull/24, 검증: `.\backend\gradlew.bat test` 통과, Jira 상태 변경: `검토 중` 전환 완료, Slack: GitHub/Jira 공식 앱)
 
 
 ## Blocked
