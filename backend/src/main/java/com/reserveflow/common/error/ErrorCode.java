@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
  */
 public enum ErrorCode {
 
+	VALIDATION_PARTY_SIZE("VALIDATION_002", HttpStatus.BAD_REQUEST, "허용 범위를 벗어난 인원수입니다."),
 	VALIDATION_REQUIRED("VALIDATION_004", HttpStatus.BAD_REQUEST, "필수 요청 값이 누락되었습니다."),
 	AUTH_REQUIRED("AUTH_001", HttpStatus.UNAUTHORIZED, "인증이 필요합니다."),
 	AUTH_INVALID("AUTH_002", HttpStatus.UNAUTHORIZED, "인증 정보가 만료되었거나 유효하지 않습니다."),
