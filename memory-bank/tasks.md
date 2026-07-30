@@ -11,12 +11,10 @@
 ## Next
 
 - 없음
-- [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
-- [T-010] booking slot 조회 API 구현 (Jira: RF-9)
 
 ## In Progress
 
-- 없음
+- [T-010] booking slot 조회 API 구현 (Jira: RF-9, 브랜치: `feature/RF-9-booking-slot-search`)
 
 ## Review
 
