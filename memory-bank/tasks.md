@@ -14,7 +14,12 @@
 
 ## In Progress
 
-- [T-010] booking slot 조회 API 구현 (Jira: RF-9, 브랜치: `feature/RF-9-booking-slot-search`)
+- 없음
+
+## Review
+
+- [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8, 브랜치: `feature/RF-8-booking-provider-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/27, 검증: `.\backend\gradlew.bat test` 통과(신규 7건), QueryDSL 동적 검색·`GET /api/v1/booking-providers`·size clamp·partySize `VALIDATION_002`, Jira 상태 변경: `검토 중` 전환 완료, Slack: GitHub/Jira 공식 앱)
+- [T-010] booking slot 조회 API 구현 (Jira: RF-9, 브랜치: `feature/RF-9-booking-slot-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/28, 검증: `.\backend\gradlew.bat test` 통과, Flyway V5 `booking_slots` 마이그레이션·엔티티·Repository·Service·`GET /api/v1/booking-providers/{providerPublicId}/slots`·SecurityConfig permitAll 추가, Jira 상태 변경: `검토 중` 전환 완료)
 
 ## Review
 

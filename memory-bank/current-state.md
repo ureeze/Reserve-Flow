@@ -8,6 +8,7 @@ ReserveFlow MVP 공통 인프라, 자연어 예약 요청 해석 API, 예약 조
 
 ## 현재 진행 중 작업
 
+- [T-010] RF-9 booking slot 조회 API 구현 및 GitHub PR #28 생성 (PR: https://github.com/ureeze/Reserve-Flow/pull/28, Jira 상태: `검토 중`)
 - [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록: RF-41 스토리 정정, AGENTS.md Jira 규칙 추가, CI/연동 완료 작업 RF-57~59 소급 등록. PR 생성 예정
 
 ## 최근 완료 작업
@@ -122,8 +123,7 @@ ReserveFlow MVP 공통 인프라, 자연어 예약 요청 해석 API, 예약 조
 
 ## 다음 작업
 
-1. [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8)
-2. [T-010] booking slot 조회 API 구현 (Jira: RF-9)
+1. [T-011] Hold 생성 요청 API 구현 (Jira: RF-10)
 
 ## 관련 문서
 
