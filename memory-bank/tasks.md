@@ -20,9 +20,6 @@
 
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8, 브랜치: `feature/RF-8-booking-provider-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/27, 검증: `.\backend\gradlew.bat test` 통과(신규 7건), QueryDSL 동적 검색·`GET /api/v1/booking-providers`·size clamp·partySize `VALIDATION_002`, Jira 상태 변경: `검토 중` 전환 완료, Slack: GitHub/Jira 공식 앱)
 - [T-010] booking slot 조회 API 구현 (Jira: RF-9, 브랜치: `feature/RF-9-booking-slot-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/28, 검증: `.\backend\gradlew.bat test` 통과, Flyway V5 `booking_slots` 마이그레이션·엔티티·Repository·Service·`GET /api/v1/booking-providers/{providerPublicId}/slots`·SecurityConfig permitAll 추가, Jira 상태 변경: `검토 중` 전환 완료)
-
-## Review
-
 - [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록 (브랜치: `docs/jira-registration-rule`, PR: 생성 예정, 내용: RF-41 작업→스토리 정정, `AGENTS.md` Jira 규칙에 "미등록 기능 작업 착수 전 티켓 생성 + 타입 컨벤션(기능=Story/기술=Task)" 추가, CI/연동 완료 작업을 RF-57~RF-59(EPIC-08) 완료 티켓으로 소급 등록, 검증: 문서 변경만, Jira 상태 변경: N/A)
 
 
@@ -147,6 +144,7 @@
 
 ## Done
 
+- [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록 (done: 2026-07-27, PR: #26 merge 완료, 브랜치: `docs/jira-registration-rule`, 내용: RF-41 작업→스토리 정정, `AGENTS.md` Jira 규칙에 미등록 기능 작업 선등록 + 타입 컨벤션 추가, CI/연동 완료 작업을 RF-57~RF-59로 소급 완료 등록, 검증: 문서 변경만, Jira 상태 변경: N/A)
 - [T-036] 문서 정합성 점검·동기화 (done: 2026-07-27, PR: #25 merge 완료, 브랜치: `docs/doc-consistency-sync`, 검증: 문서 변경만이라 별도 테스트 불필요, 내용: decisions/tech-stack/current-state 갱신, Notion ERD 4.2~4.13 전체를 bigint id + uuid public_id 구조로 동기화, Jira 상태 변경: N/A, Slack: GitHub/Jira 공식 앱)
 - [T-035] 엔티티 식별자 전략을 Long 내부 PK + UUID 외부 식별자로 통일 (Jira: RF-56, done: 2026-07-27, PR: #24 merge 완료, 브랜치: `feature/RF-56-entity-id-strategy`, 검증: `.\backend\gradlew.bat test` 통과, `booking_providers`·`booking_provider_business_hours`를 `bigint id + uuid public_id`로 전환·마이그레이션 V3·V4 재작성(초기 개발 예외)·`findByPublicId` 적용, ADR-005/ADR-008/ERD 반영, Jira 상태 변경: 자동화가 `완료` 자동 전환, Slack: GitHub/Jira 공식 앱)
 - [T-034] GitHub Actions → Slack 제거 및 Slack 알림을 GitHub·Jira 공식 앱으로 일원화 (done: 2026-07-26, PR: #23 merge 완료, 브랜치: `ci/remove-actions-slack-unify-github-app`, 검증: `pr-check.yml`/`deploy.yml` Slack step 제거·YAML 확인, Jira 상태 변경: N/A, Slack: GitHub/Jira 공식 앱)
