@@ -11,7 +11,6 @@
 ## Next
 
 - 없음
-- [T-010] booking slot 조회 API 구현 (Jira: RF-9)
 
 ## In Progress
 
@@ -20,6 +19,8 @@
 ## Review
 
 - [T-009] 예약 제공자 검색 API 구현 (Jira: RF-8, 브랜치: `feature/RF-8-booking-provider-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/27, 검증: `.\backend\gradlew.bat test` 통과(신규 7건), QueryDSL 동적 검색·`GET /api/v1/booking-providers`·size clamp·partySize `VALIDATION_002`, Jira 상태 변경: `검토 중` 전환 완료, Slack: GitHub/Jira 공식 앱)
+- [T-010] booking slot 조회 API 구현 (Jira: RF-9, 브랜치: `feature/RF-9-booking-slot-search`, PR: https://github.com/ureeze/Reserve-Flow/pull/28, 검증: `.\backend\gradlew.bat test` 통과, Flyway V5 `booking_slots` 마이그레이션·엔티티·Repository·Service·`GET /api/v1/booking-providers/{providerPublicId}/slots`·SecurityConfig permitAll 추가, Jira 상태 변경: `검토 중` 전환 완료)
+- [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록 (브랜치: `docs/jira-registration-rule`, PR: 생성 예정, 내용: RF-41 작업→스토리 정정, `AGENTS.md` Jira 규칙에 "미등록 기능 작업 착수 전 티켓 생성 + 타입 컨벤션(기능=Story/기술=Task)" 추가, CI/연동 완료 작업을 RF-57~RF-59(EPIC-08) 완료 티켓으로 소급 등록, 검증: 문서 변경만, Jira 상태 변경: N/A)
 
 
 ## Blocked
