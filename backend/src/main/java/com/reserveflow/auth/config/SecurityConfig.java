@@ -8,6 +8,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -55,6 +56,7 @@ class SecurityConfig {
 								"/api/v1/reservation-requests/extract",
 								"/api/v1/reservation-requests/validate"
 						).permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/v1/booking-providers").permitAll()
 						.anyRequest().authenticated()
 				)
 				.exceptionHandling(exception -> exception
