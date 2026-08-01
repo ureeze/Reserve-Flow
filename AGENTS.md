@@ -6,9 +6,37 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 
 ## 역할
 
-- AI Agent는 ReserveFlow MVP 개발을 돕는 개발 에이전트다.
+- AI 개발 에이전트는 ReserveFlow MVP 개발을 돕는다.
 - Notion 기준 문서와 Memory Bank를 바탕으로 작업 범위, 구현 방향, 검증 방법을 정한다.
-- 구현 작업은 가능한 경우 구현, 테스트/검증, Memory Bank 갱신까지 완료한다.
+- 구현 작업은 구현, 테스트/검증, Memory Bank 갱신까지 완료한다.
+
+## 작업 흐름
+
+```text
+Jira 작업 시작
+→ Jira: In Progress
+→ feature/{JiraKey}-{short-summary} 브랜치
+→ 구현 + 테스트
+→ current-state.md / tasks.md 갱신
+→ tasks.md는 Review 상태로 기록
+→ 커밋
+→ PR 생성
+→ Jira: Review
+→ 사용자가 PR Merge
+→ GitHub ↔ Jira 자동화로 Jira: Done
+```
+
+## 상태 관리 원칙
+
+- **Jira를 작업 상태의 Source of Truth로 사용한다.**
+- Jira 상태는 `In Progress → Review → Done` 흐름으로 관리한다.
+- `tasks.md`는 Jira 상태를 중복 관리하기 위한 것이 아니라 **AI Agent의 작업 컨텍스트와 상세 기록**으로 사용한다.
+- PR 생성 전 `tasks.md`는 `Review`로 갱신한다.
+- PR Merge 후 `tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
+- PR Merge 후 Jira가 `Done`이면 작업 완료로 판단한다.
+- 다음 작업 시작 시 Jira가 `Done`인지 확인하면 되며, 매번 GitHub PR의 Merge 여부까지 별도로 확인하지 않는다.
+- Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 확인한다.
+- `1 Jira = 1 PR`을 기본으로 하되, 하나의 Jira에 여러 논리적 커밋이 포함되는 것은 허용한다.
 
 ## 작업 원칙
 
@@ -16,12 +44,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 이어서 현재 작업과 관련된 `memory-bank` 문서를 필요한 만큼 읽는다.
 - Jira 티켓이 있는 작업은 Jira Key를 `tasks.md`와 커밋/PR 설명에 함께 남긴다.
 - 구현 변경이 있으면 테스트 또는 검증 방법을 함께 수행한다.
-- 작업 브랜치에서 수행한 변경은 구현 작업 커밋 전 `current-state.md`와 `tasks.md`에 작업 컨텍스트와 상세 기록으로 갱신한다.
-- Jira를 작업 상태의 Source of Truth로 사용하고, Jira 상태는 `In Progress -> Review -> Done` 흐름으로 관리한다.
-- `tasks.md`는 Jira 상태를 중복 관리하기 위한 문서가 아니라 AI Agent의 작업 컨텍스트와 상세 기록으로 사용한다.
-- 구현과 검증이 완료되어 PR을 생성하는 경우, 구현 작업 커밋 전에 `tasks.md`에서 해당 작업을 `Review` 상태로 기록한다.
-- PR merge 후 `tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
-- PR merge 후 Jira가 `Done`이면 작업 완료로 판단한다.
+- 작업 브랜치에서 수행한 변경은 작업 종료 전 `current-state.md`와 `tasks.md`를 갱신한다.
 
 ## 실행 전 확인 원칙
 
@@ -67,41 +90,30 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성 + Jira 상태 변경
 
-기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 AI Agent의 작업 자동화 범위에 포함하지 않는다.
+기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 작업 자동화 범위에 포함하지 않는다.
 
 ## Git 규칙
 
 - 프로젝트 상태 변경 작업을 시작하기 전에 `git status --short --branch`로 Git 저장소와 현재 브랜치를 확인한다.
-- 현재 디렉터리가 Git 저장소가 아니면 바로 구현하지 않는다. 실행계획에 `git init`, 기본 브랜치 생성, 최초 커밋 여부, 원격 저장소 연결 여부를 포함하고 사용자 확인을 받은 뒤 진행한다.
-- Git 저장소가 있지만 작업 브랜치가 Jira Key 기준 브랜치가 아니면, 실행계획에 브랜치 생성 또는 전환을 포함하고 사용자 확인을 받은 뒤 진행한다.
 - 브랜치 전략은 GitHub Flow를 따른다.
 - `main`은 배포와 릴리스 기준 브랜치로 유지한다.
 - Jira 티켓 작업 브랜치는 `main` 또는 사용자와 합의한 기본 브랜치에서 분기한다.
 - Jira 티켓 작업 브랜치는 `feature/{JiraKey}-{short-summary}` 형식을 기본으로 한다. 예: `feature/RF-18-spring-boot-bootstrap`
 - 기능 작업 완료 후 PR은 작업 브랜치에서 `main` 또는 사용자와 합의한 기본 브랜치로 보낸다.
 - 운영 긴급 수정도 Jira Key 기반 작업 브랜치로 처리한다.
-- 원격 저장소가 없거나 연결되지 않은 경우에도 로컬 구현은 진행할 수 있지만, push와 PR 생성은 원격 연결 계획을 사용자에게 확인받은 경우에만 수행한다.
 - 커밋 메시지는 Jira Key로 시작한다. 예: `RF-18 Bootstrap Spring Boot project`
 
 ## Jira 규칙
 
 - Jira 프로젝트 key는 `RF`이다.
-- Jira를 작업 상태의 Source of Truth로 사용한다.
-- Jira 상태는 `In Progress -> Review -> Done` 흐름으로 관리한다.
 - 개발 작업은 Jira 티켓 단위로 진행한다.
 - 기능/코드 작업(엔드포인트·엔티티·로직·리팩터링·버그 수정)은 대응하는 Jira 티켓이 없으면 **착수 전에 Jira 티켓을 먼저 생성한다**. 순수 문서·CI·도구·협업 도구 연동 같은 메타 작업은 로컬 T-ID로 관리할 수 있다.
 - 신규 티켓 생성은 실행계획에 포함해 확인받은 뒤 해당 도메인 Epic 하위에 만들고, 생성된 Jira Key로 착수(`진행 중` 전환 + `feature/{JiraKey}-{short-summary}` 브랜치)한다.
 - 티켓 타입 컨벤션: 사용자/시스템이 직접 쓰는 기능 단위(공개 API·화면)는 `스토리(Story)`, 기술·인프라·워커·테스트·설정 작업은 `작업(Task)`으로 만든다.
-- `1 Jira = 1 PR`을 기본으로 하되, 하나의 Jira에 여러 논리적 커밋이 포함되는 것은 허용한다.
 - 작업 시작 시 Jira 티켓을 확인한다.
 - Jira 티켓 작업을 시작해 작업 브랜치를 생성하거나 구현에 착수하면 Jira 상태를 `진행 중`으로 기본 전환한다.
-- 사용자가 명시적으로 Jira 상태 변경 생략을 요청한 경우에는 작업 시작 시 `진행 중`으로 전환하지 않는다.
-- 진행 중 의미 있는 중간 결과가 생기면 Jira 댓글로 요약할 수 있다.
-- 구현과 push가 완료되었지만 GitHub PR이 아직 없으면 Jira 상태는 `진행 중`을 유지한다.
 - GitHub PR을 생성하면 Jira 티켓에 PR 링크와 검증 결과를 댓글로 남기고 상태를 `검토 중`으로 변경한다.
-- PR이 `main`에 merge되면 Jira 자동화(GitHub for Jira 연동)가 해당 이슈를 `완료`로 자동 전환한다. AI Agent는 머지 후 `완료` 전환을 수동으로 수행하지 않는다. 단, 작업 착수 시 `진행 중`, PR 생성 시 `검토 중` 전환은 계속 AI Agent가 수행한다.
-- 다음 작업 시작 시 Jira가 `Done`인지 확인하면 되며, 매번 GitHub PR의 merge 여부까지 별도로 확인하지 않는다.
-- Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 확인한다.
+- PR이 `main`에 merge되면 Jira 자동화(GitHub for Jira 연동)가 해당 이슈를 `완료`로 자동 전환한다. 
 - Jira 댓글에는 작업 요약, 검증 결과, PR 링크를 남긴다.
 
 ## GitHub PR 규칙
@@ -111,45 +123,25 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - PR 제목과 본문에는 Jira Key, 변경 요약, 검증 결과를 포함한다.
 - PR 본문에는 후속 작업 또는 남은 위험이 있으면 함께 남긴다.
 - GitHub push와 PR 생성은 사용자가 요청하거나 실행계획에 포함되어 확인된 경우에만 수행한다.
-- PR 생성 전, 더 구체적으로는 구현 작업 커밋 전에 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 기록하고 작업 요약, 검증 결과, Jira 상태를 남긴다.
+- PR 생성 전에는 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 옮기고 PR 링크와 검증 결과를 기록한다.
 - PR merge는 사용자가 GitHub UI에서 직접 수행하는 것을 기본 원칙으로 한다.
-- AI Agent는 PR merge 전 변경 요약, 검증 결과, Jira 상태, merge 전 확인 사항을 정리하고 사용자에게 GitHub UI에서 merge할 수 있도록 안내한다.
-- 사용자가 PR merge 완료를 알려주면 AI Agent는 로컬 `main` 최신화, Jira `Done` 자동 전환 확인, 다음 작업 브랜치 준비를 수행한다. Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 추가 확인한다.
-- 사용자가 명시적으로 요청한 예외 상황이 아니라면 AI Agent가 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
-- PR merge 이후 Memory Bank 상태 반영만을 위한 별도 커밋과 원격 push는 수행하지 않는다.
-- PR merge 후 `memory-bank/tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
-- merge 이후 필요한 문서 정리는 다음 기능 브랜치 또는 별도 문서 브랜치에서 PR로 반영할 수 있으나, Jira가 `Done`이면 작업 완료로 판단한다.
+- 에이전트는 사용자가 명시적으로 요청한 예외 상황이 아니라면 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
 
 ## Slack 공유 규칙
 
-- Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당한다. AI Agent도, GitHub Actions 워크플로우도 Slack을 직접 전송하지 않는다.
-- 이벤트별 알림 출처는 하나로 통일한다.
-  - **Jira 이벤트**(이슈 생성, 담당자 변경, 상태 변경, 댓글, 멘션) → **Slack ↔ Jira 앱**(Jira Cloud for Slack). 채널 알림은 상태 변경 중심으로 구독하고, 댓글 구독은 PR 링크 자동 댓글과 중복되므로 기본 비활성으로 둔다. 멘션은 개인 DM으로 전달된다.
-  - **GitHub 이벤트**(PR 생성/리뷰/머지, CI 워크플로우 결과, 배포, 릴리스) → **Slack ↔ GitHub 앱**. `pulls`, `reviews`, `workflows`, `deployments`, `releases`를 구독하고, `issues`·`commits` 등 노이즈성 이벤트는 구독하지 않는다.
-- Jira ↔ GitHub 연동(GitHub for Jira)은 각 이슈 Development 패널에 브랜치·커밋·PR·머지·배포를 연결하며, Slack 알림은 보내지 않는다.
-- 채널 매핑
-  - `#reserve-flow-dev`: Jira 상태 변경, GitHub PR/리뷰/머지, CI 워크플로우 결과
-  - `#reserve-flow-deploy`: GitHub 배포/릴리스 알림(GitHub 앱의 `deployments` 구독)
-  - `#reserve-flow-alerts`: 장애·긴급 대응 알림. 현재는 이를 트리거하는 소스가 없다.
-- 알림 앱 연결과 구독 설정은 Slack/GitHub/Jira UI에서 관리하며 저장소 코드에는 포함하지 않는다. GitHub Actions 워크플로우(`pr-check.yml`, `deploy.yml`)는 테스트·배포만 수행하고 Slack 전송 step을 두지 않는다.
-- 알려진 중복: PR 생성 시 GitHub 앱(PR opened) + Jira 앱(상태 `검토 중`), PR 머지 시 GitHub 앱(merged) + Jira 앱(상태 `완료`)이 각각 두 번 알릴 수 있다. 성격이 달라 기본은 그대로 두며, 과하면 한쪽 구독을 끈다.
+- Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당한다. 직접 Slack 메시지를 전송하지 않는다.
 
 ## 테스트 규칙
 
 - 구현 변경이 있으면 관련 테스트 또는 검증 방법을 함께 수행한다.
 - Java/Spring 테스트는 JUnit 5와 Spring Boot Test를 기준으로 한다.
 - DB 제약, Migration, 동시성은 통합 테스트로 검증한다.
-- 반드시 검증해야 하는 핵심 경합은 Hold 생성 동시 요청, Hold 만료와 예약 최종 확인 경합, Idempotency-Key 재요청이다.
-- 테스트를 실행할 수 없으면 사유와 대체 검증 방법을 작업 결과에 남긴다.
 
 ## 배포 규칙
 
 - 현재 프로젝트는 초기 로컬 개발 기준이다.
 - 배포, 운영 환경 변경, 환경변수 변경, DB migration 적용은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다.
 - 적용된 Flyway Migration은 수정하지 않는다. 변경은 새 Migration으로 추가한다.
-- 배포 또는 운영 반영 전에는 관련 테스트/검증 결과를 확인한다.
-- `main`에 변경이 반영되면 GitHub Actions 배포 workflow가 실행되는 구조를 기준으로 한다.
-- 실제 배포 대상이 확정되기 전까지 배포 workflow는 placeholder step을 유지하고, 배포 대상 확정 후 해당 step을 실제 배포 명령으로 교체한다.
 
 ## 코딩 스타일
 
@@ -159,7 +151,6 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - Controller, Service, Repository 책임을 분리한다.
 - API DTO와 Entity를 직접 공유하지 않는다.
 - 상태값은 Java enum으로 표현하되 DB CHECK 값과 반드시 일치시킨다.
-- 외부 입력은 Bean Validation과 도메인 검증을 함께 사용한다.
 
 ## 기준 문서
 
@@ -180,8 +171,6 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - [ ] 필요한 경우 Notion/Jira와 용어가 일치하는지 확인했다.
 - [ ] `memory-bank/current-state.md`를 갱신했다.
 - [ ] `memory-bank/tasks.md`를 갱신했다.
-- [ ] 새 결정이 생겼다면 Notion ADR에 기록하고 `memory-bank/decisions.md` 인덱스를 갱신했다.
-- [ ] 문제 해결 기록이 필요하면 `memory-bank/troubleshooting.md`에 남겼다.
 
 ## 개발 우선순위
 
@@ -203,4 +192,3 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 민감정보, JWT, 개인정보, 원문 프롬프트를 로그나 audit metadata에 저장하지 않는다.
 - 적용된 Flyway Migration을 수정하지 않는다. 변경은 새 Migration으로 추가한다.
 - 외부 API, LLM, Kafka 호출을 DB 트랜잭션 안에서 수행하지 않는다.
-
