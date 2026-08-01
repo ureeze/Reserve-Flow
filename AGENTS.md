@@ -6,7 +6,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 
 ## 역할
 
-- Codex/클로드 코드는 ReserveFlow MVP 개발을 돕는 AI 개발 에이전트다.
+- AI Agent는 ReserveFlow MVP 개발을 돕는 개발 에이전트다.
 - Notion 기준 문서와 Memory Bank를 바탕으로 작업 범위, 구현 방향, 검증 방법을 정한다.
 - 구현 작업은 가능한 경우 구현, 테스트/검증, Memory Bank 갱신까지 완료한다.
 
@@ -16,11 +16,12 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 이어서 현재 작업과 관련된 `memory-bank` 문서를 필요한 만큼 읽는다.
 - Jira 티켓이 있는 작업은 Jira Key를 `tasks.md`와 커밋/PR 설명에 함께 남긴다.
 - 구현 변경이 있으면 테스트 또는 검증 방법을 함께 수행한다.
-- 작업 브랜치에서 수행한 변경은 작업 종료 전 `current-state.md`와 `tasks.md`를 갱신한다.
-- 작업 상태는 `tasks.md`에서 `In Progress -> Review -> Done` 흐름으로 관리한다.
-- 구현과 검증이 완료되어 PR을 생성하는 경우, PR 생성 전에 작업 브랜치에서 해당 작업을 `Review` 상태로 반영한다.
-- PR merge가 완료된 작업만 `Done` 상태로 반영한다.
-- PR merge 이후 상태 반영만을 위한 Memory Bank 단독 커밋은 `main`에 직접 만들지 않는다. 필요한 상태 정리는 다음 작업 브랜치 또는 별도 문서 브랜치의 PR에 포함한다.
+- 작업 브랜치에서 수행한 변경은 구현 작업 커밋 전 `current-state.md`와 `tasks.md`에 작업 컨텍스트와 상세 기록으로 갱신한다.
+- Jira를 작업 상태의 Source of Truth로 사용하고, Jira 상태는 `In Progress -> Review -> Done` 흐름으로 관리한다.
+- `tasks.md`는 Jira 상태를 중복 관리하기 위한 문서가 아니라 AI Agent의 작업 컨텍스트와 상세 기록으로 사용한다.
+- 구현과 검증이 완료되어 PR을 생성하는 경우, 구현 작업 커밋 전에 `tasks.md`에서 해당 작업을 `Review` 상태로 기록한다.
+- PR merge 후 `tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
+- PR merge 후 Jira가 `Done`이면 작업 완료로 판단한다.
 
 ## 실행 전 확인 원칙
 
@@ -66,7 +67,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성 + Jira 상태 변경
 
-기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 Codex/클로드 코드의 작업 자동화 범위에 포함하지 않는다.
+기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 AI Agent의 작업 자동화 범위에 포함하지 않는다.
 
 ## Git 규칙
 
@@ -85,17 +86,22 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 ## Jira 규칙
 
 - Jira 프로젝트 key는 `RF`이다.
+- Jira를 작업 상태의 Source of Truth로 사용한다.
+- Jira 상태는 `In Progress -> Review -> Done` 흐름으로 관리한다.
 - 개발 작업은 Jira 티켓 단위로 진행한다.
 - 기능/코드 작업(엔드포인트·엔티티·로직·리팩터링·버그 수정)은 대응하는 Jira 티켓이 없으면 **착수 전에 Jira 티켓을 먼저 생성한다**. 순수 문서·CI·도구·협업 도구 연동 같은 메타 작업은 로컬 T-ID로 관리할 수 있다.
 - 신규 티켓 생성은 실행계획에 포함해 확인받은 뒤 해당 도메인 Epic 하위에 만들고, 생성된 Jira Key로 착수(`진행 중` 전환 + `feature/{JiraKey}-{short-summary}` 브랜치)한다.
 - 티켓 타입 컨벤션: 사용자/시스템이 직접 쓰는 기능 단위(공개 API·화면)는 `스토리(Story)`, 기술·인프라·워커·테스트·설정 작업은 `작업(Task)`으로 만든다.
+- `1 Jira = 1 PR`을 기본으로 하되, 하나의 Jira에 여러 논리적 커밋이 포함되는 것은 허용한다.
 - 작업 시작 시 Jira 티켓을 확인한다.
 - Jira 티켓 작업을 시작해 작업 브랜치를 생성하거나 구현에 착수하면 Jira 상태를 `진행 중`으로 기본 전환한다.
 - 사용자가 명시적으로 Jira 상태 변경 생략을 요청한 경우에는 작업 시작 시 `진행 중`으로 전환하지 않는다.
 - 진행 중 의미 있는 중간 결과가 생기면 Jira 댓글로 요약할 수 있다.
 - 구현과 push가 완료되었지만 GitHub PR이 아직 없으면 Jira 상태는 `진행 중`을 유지한다.
 - GitHub PR을 생성하면 Jira 티켓에 PR 링크와 검증 결과를 댓글로 남기고 상태를 `검토 중`으로 변경한다.
-- PR이 `main`에 merge되면 Jira 자동화(GitHub for Jira 연동)가 해당 이슈를 `완료`로 자동 전환한다. Codex/클로드 코드는 머지 후 `완료` 전환을 수동으로 수행하지 않는다. 단, 작업 착수 시 `진행 중`, PR 생성 시 `검토 중` 전환은 계속 Codex/클로드 코드가 수행한다.
+- PR이 `main`에 merge되면 Jira 자동화(GitHub for Jira 연동)가 해당 이슈를 `완료`로 자동 전환한다. AI Agent는 머지 후 `완료` 전환을 수동으로 수행하지 않는다. 단, 작업 착수 시 `진행 중`, PR 생성 시 `검토 중` 전환은 계속 AI Agent가 수행한다.
+- 다음 작업 시작 시 Jira가 `Done`인지 확인하면 되며, 매번 GitHub PR의 merge 여부까지 별도로 확인하지 않는다.
+- Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 확인한다.
 - Jira 댓글에는 작업 요약, 검증 결과, PR 링크를 남긴다.
 
 ## GitHub PR 규칙
@@ -105,18 +111,18 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 - PR 제목과 본문에는 Jira Key, 변경 요약, 검증 결과를 포함한다.
 - PR 본문에는 후속 작업 또는 남은 위험이 있으면 함께 남긴다.
 - GitHub push와 PR 생성은 사용자가 요청하거나 실행계획에 포함되어 확인된 경우에만 수행한다.
-- PR 생성 전에는 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 옮기고 PR 링크, 검증 결과, Jira 상태를 기록한다.
+- PR 생성 전, 더 구체적으로는 구현 작업 커밋 전에 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 기록하고 작업 요약, 검증 결과, Jira 상태를 남긴다.
 - PR merge는 사용자가 GitHub UI에서 직접 수행하는 것을 기본 원칙으로 한다.
-- Codex/클로드 코드는 PR merge 전 변경 요약, 검증 결과, Jira 상태, merge 전 확인 사항을 정리하고 사용자에게 GitHub UI에서 merge할 수 있도록 안내한다.
-- 사용자가 PR merge 완료를 알려주면 Codex/클로드 코드는 로컬 `main` 최신화, PR/Jira 상태 확인, Memory Bank 완료 상태 확인, 다음 작업 브랜치 준비를 수행한다. 이때 Jira `완료` 전환은 자동화가 처리하므로 Codex/클로드 코드는 전환 여부를 확인만 한다.
-- 사용자가 명시적으로 요청한 예외 상황이 아니라면 Codex/클로드 코드가 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
+- AI Agent는 PR merge 전 변경 요약, 검증 결과, Jira 상태, merge 전 확인 사항을 정리하고 사용자에게 GitHub UI에서 merge할 수 있도록 안내한다.
+- 사용자가 PR merge 완료를 알려주면 AI Agent는 로컬 `main` 최신화, Jira `Done` 자동 전환 확인, 다음 작업 브랜치 준비를 수행한다. Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 추가 확인한다.
+- 사용자가 명시적으로 요청한 예외 상황이 아니라면 AI Agent가 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
 - PR merge 이후 Memory Bank 상태 반영만을 위한 별도 커밋과 원격 push는 수행하지 않는다.
-- PR merge 후 `memory-bank/tasks.md`에 해당 작업이 `Review` 또는 `In Progress`로 남아 있으면 불일치로 보고하고, `main` 직접 커밋 대신 다음 기능 브랜치 또는 별도 문서 브랜치 PR로 `Done` 반영 계획을 제시한다.
-- merge 이후 필요한 문서 정리는 다음 기능 브랜치 또는 별도 문서 브랜치에서 PR로 반영한다.
+- PR merge 후 `memory-bank/tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
+- merge 이후 필요한 문서 정리는 다음 기능 브랜치 또는 별도 문서 브랜치에서 PR로 반영할 수 있으나, Jira가 `Done`이면 작업 완료로 판단한다.
 
 ## Slack 공유 규칙
 
-- Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당한다. Codex/클로드 코드도, GitHub Actions 워크플로우도 Slack을 직접 전송하지 않는다.
+- Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당한다. AI Agent도, GitHub Actions 워크플로우도 Slack을 직접 전송하지 않는다.
 - 이벤트별 알림 출처는 하나로 통일한다.
   - **Jira 이벤트**(이슈 생성, 담당자 변경, 상태 변경, 댓글, 멘션) → **Slack ↔ Jira 앱**(Jira Cloud for Slack). 채널 알림은 상태 변경 중심으로 구독하고, 댓글 구독은 PR 링크 자동 댓글과 중복되므로 기본 비활성으로 둔다. 멘션은 개인 DM으로 전달된다.
   - **GitHub 이벤트**(PR 생성/리뷰/머지, CI 워크플로우 결과, 배포, 릴리스) → **Slack ↔ GitHub 앱**. `pulls`, `reviews`, `workflows`, `deployments`, `releases`를 구독하고, `issues`·`commits` 등 노이즈성 이벤트는 구독하지 않는다.
