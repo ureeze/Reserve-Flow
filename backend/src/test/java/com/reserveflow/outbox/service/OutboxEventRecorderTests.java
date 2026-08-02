@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class OutboxEventAppenderTests {
+class OutboxEventRecorderTests {
 
 	@Autowired
-	private OutboxEventAppender outboxEventAppender;
+	private OutboxEventRecorder outboxEventRecorder;
 
 	@Autowired
 	private OutboxEventRepository outboxEventRepository;
@@ -35,7 +35,7 @@ class OutboxEventAppenderTests {
 	void appendStoresPendingEventInCurrentTransaction() {
 		UUID aggregateId = UUID.randomUUID();
 
-		OutboxEvent saved = outboxEventAppender.append(
+		OutboxEvent saved = outboxEventRecorder.record(
 				"HOLD_REQUEST",
 				aggregateId,
 				"HOLD_REQUESTED",
@@ -66,7 +66,7 @@ class OutboxEventAppenderTests {
 	@Transactional
 	void repositoryFindsPublishablePendingEvents() {
 		UUID aggregateId = UUID.randomUUID();
-		OutboxEvent saved = outboxEventAppender.append(
+		OutboxEvent saved = outboxEventRecorder.record(
 				"HOLD_REQUEST",
 				aggregateId,
 				"HOLD_REQUESTED",
@@ -94,7 +94,7 @@ class OutboxEventAppenderTests {
 	void appendRequiresExistingTransaction() {
 		UUID aggregateId = UUID.randomUUID();
 
-		assertThatThrownBy(() -> outboxEventAppender.append(
+		assertThatThrownBy(() -> outboxEventRecorder.record(
 				"RESERVATION",
 				aggregateId,
 				"RESERVATION_CONFIRMED",

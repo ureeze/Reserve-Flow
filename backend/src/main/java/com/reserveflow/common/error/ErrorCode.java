@@ -17,6 +17,7 @@ public enum ErrorCode {
 	RATE_LIMIT_EXCEEDED("RATE_LIMIT_001", HttpStatus.TOO_MANY_REQUESTS, "요청 횟수가 제한을 초과했습니다."),
 	LLM_UNAVAILABLE("LLM_001", HttpStatus.BAD_GATEWAY, "예약 요청 해석 서비스를 일시적으로 사용할 수 없습니다."),
 	PROVIDER_NOT_FOUND("PROVIDER_001", HttpStatus.NOT_FOUND, "예약 제공자를 찾을 수 없습니다."),
+	SLOT_NOT_FOUND("SLOT_001", HttpStatus.NOT_FOUND, "예약 가능한 시간대를 찾을 수 없습니다."),
 	INTERNAL_SERVER_ERROR("INTERNAL_001", HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다.");
 
 	private final String code;

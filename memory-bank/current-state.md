@@ -8,12 +8,14 @@ ReserveFlow MVP 공통 인프라, 자연어 예약 요청 해석 API, 예약 조
 
 ## 현재 진행 중 작업
 
+- [T-011] RF-10 Hold 생성 요청 API 구현 완료, GitHub PR #31 생성 (PR: https://github.com/ureeze/Reserve-Flow/pull/31, Jira 상태: `검토 중` 전환 예정)
 - [T-009] RF-8 예약 제공자 검색 API 구현 완료 및 PR #27 검토 중
 - [T-010] RF-9 booking slot 조회 API 구현 및 GitHub PR #28 생성 (PR: https://github.com/ureeze/Reserve-Flow/pull/28, Jira 상태: `검토 중`)
 - [T-037] Jira 티켓 타입 정정·미등록 기능 작업 선등록 규칙화·완료 작업 소급 등록: RF-41 스토리 정정, AGENTS.md Jira 규칙 추가, CI/연동 완료 작업 RF-57~59 소급 등록. PR 생성 예정
 
 ## 최근 완료 작업
 
+- RF-10 진행: `hold_requests` Flyway 마이그레이션(V6), HoldRequest 엔티티/상태 enum/Repository, 요청·응답 DTO, HoldRequestService(회원·slot 확인 후 PENDING 저장 + HOLD_REQUESTED Outbox 이벤트 동일 트랜잭션 기록), `POST /api/v1/hold-requests` Controller(202 Accepted), `SLOT_001` ErrorCode 추가, 신규 테스트 4건(`.\backend\gradlew.bat test` 전체 통과)
 - RF-8 진행: QueryDSL 도입(build.gradle 의존성·`JPAQueryFactory` 설정·custom repository), `GET /api/v1/booking-providers` 검색 API, size clamp(최대 50), `partySize<1` → `400 VALIDATION_002`, 신규 테스트 7건 통과
 - Jira 정비: RF-41(대기열 취소 API)을 작업→스토리로 정정, 미등록 기능 작업 Jira 선등록 규칙과 타입 컨벤션을 AGENTS.md에 명문화, CI/배포(RF-57)·Jira 연동 자동화(RF-58)·Slack 알림 연동(RF-59)을 EPIC-08 하위 완료 티켓으로 소급 등록 (T-037)
 - 문서 정합성 점검: memory-bank 3개 파일 낡은 내용 갱신, ERD 4.2~4.13 테이블 정의서 전체를 새 식별자 구조로 동기화 (T-036)
