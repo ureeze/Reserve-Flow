@@ -70,7 +70,7 @@ ReserveFlow는 사용자가 복잡한 예약 입력 폼을 직접 채우지 않�
 
 ## Memory Bank 구조
 
-Memory Bank는 프로젝트의 현재 상태와 기준 지식을 보관한다. `coding-rules.md`는 AI 행동 규칙이 아니라 이 프로젝트의 코드 작성 기준을 담는 지식 문서로 본다.
+Memory Bank는 프로젝트의 기준 지식을 보관한다. 작업 상태는 Jira가 Source of Truth이며, memory-bank는 자주 바뀌는 상태 파일이 아니라 드물게 바뀌는 판단 기준 문서만 유지한다. `coding-rules.md`는 AI 행동 규칙이 아니라 이 프로젝트의 코드 작성 기준을 담는 지식 문서로 본다.
 
 ```text
 memory-bank/
@@ -78,11 +78,8 @@ memory-bank/
 ├─ architecture.md
 ├─ tech-stack.md
 ├─ coding-rules.md
-├─ current-state.md
 ├─ decisions.md
 ├─ llm-extraction-spike.md
-├─ tasks.md
-├─ tasks-archive.md
 └─ troubleshooting.md
 ```
 
@@ -92,9 +89,6 @@ memory-bank/
 - `architecture.md`: 아키텍처, 도메인 흐름, 동시성 원칙
 - `tech-stack.md`: 기술 스택
 - `coding-rules.md`: 프로젝트 코드 작성 기준
-- `current-state.md`: 현재 마일스톤, 열린 이슈, 다음 작업
 - `decisions.md`: Notion ADR 링크 인덱스
 - `llm-extraction-spike.md`: RF-6 Python LLM 서비스 연동 Spike의 계약과 후속 구현 기준
-- `tasks.md`: 가까운 작업 목록과 완료 조건
-- `tasks-archive.md`: 오래된 완료 작업 보관
 - `troubleshooting.md`: 문제 해결 기록
