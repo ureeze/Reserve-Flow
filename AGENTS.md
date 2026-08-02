@@ -7,7 +7,7 @@ ReserveFlow는 사용자의 자연어 예약 요청을 구조화된 예약 조�
 ## 역할
 
 - AI 개발 에이전트는 ReserveFlow MVP 개발을 돕는다.
-- Notion 기준 문서와 Memory Bank를 바탕으로 작업 범위, 구현 방향, 검증 방법을 정한다.
+- Jira 티켓과 Notion 기준 문서와 Memory Bank를 바탕으로 작업 범위, 구현 방향, 검증 방법을 정한다.
 - 구현 작업은 구현, 테스트/검증, Memory Bank 갱신까지 완료한다.
 
 ## 작업 흐름
@@ -83,7 +83,7 @@ Jira 작업 시작
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성
 - 로컬 구현 + 테스트 + Memory Bank 갱신 + GitHub PR 생성 + Jira 상태 변경
 
-기본값은 `로컬 구현 + 테스트 + Memory Bank 갱신`이다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 작업 자동화 범위에 포함하지 않는다.
+기본값은 `로컬 구현 + 테스트 (+ 필요 시에만 Memory Bank 갱신)`이다. Memory Bank는 구현·기술 변경 시에만 드물게 바뀌는 판단 기준 문서만 갱신한다. GitHub push와 PR 생성은 실행계획에 포함하고 사용자 확인을 받은 경우에만 수행한다. Jira 상태 변경은 Jira 규칙의 기본 전환 기준을 따른다. Slack 알림은 GitHub·Jira 공식 Slack 앱이 담당하므로 작업 자동화 범위에 포함하지 않는다.
 
 ## Git 규칙
 
@@ -99,7 +99,7 @@ Jira 작업 시작
   - PR 제목: `{JiraKey} {설명}` 형식을 사용한다. 예: `RF-10 Hold 생성 요청 API 구현` (GitHub squash merge 시 `(#NN)` 자동 추가)
   - 개발 커밋에는 Jira Key를 붙이지 않고, PR 제목에만 Jira Key를 단다.
   - type 목록: `feat`, `fix`, `docs`, `ci`, `refactor`, `test`, `chore`, `build`, `style`
-  - scope 목록(도메인 모듈): `auth`, `member`, `bookingprovider`, `bookingslot`, `hold`, `reservation`, `waitlist`, `outbox`, `llm`, `common`
+  - scope 목록(도메인 모듈): `auth`, `member`, `bookingprovider`, `bookingslot`, `hold`, `reservation`, `waitlist`, `outbox`, `llm`, `common`, `reservationrequest`
   - scope 목록(메타): `docs`, `ci`, `build`, `test`
   - PR 제목에는 Conventional prefix(`feat:` 등)를 붙이지 않는다.
 
@@ -172,16 +172,7 @@ Jira 작업 시작
 
 ## 개발 우선순위
 
-현재 MVP 개발 시작 순서는 Jira P0 백로그를 기준으로 한다.
-
-1. RF-18 Spring Boot 프로젝트 기본 구조 생성
-2. RF-19 PostgreSQL 연결과 마이그레이션 도구 설정
-3. RF-20 Redis 연결과 기본 설정
-4. RF-21 회원가입, 로그인, 토큰 발급/갱신과 Bearer Token 기반 JWT 인증 구현
-5. RF-22 공통 오류 응답과 Error Catalog 적용
-6. RF-23 Transactional Outbox 기본 구조 구현
-
-이후 `booking provider/booking slot -> Hold -> Reservation -> Waitlist` 순서로 구현한다.
+MVP 도메인 구현 순서는 `booking provider/booking slot -> Hold -> Reservation -> Waitlist`를 따른다. 구체적인 티켓과 진행 상태는 Jira P0 백로그를 기준으로 한다.
 
 ## 금지 사항
 

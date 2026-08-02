@@ -32,6 +32,8 @@
 
 - `reservationrequest`: 자연어 예약 요청 해석과 검증
 - `llm-service`: LangChain을 사용해 자연어를 구조화된 예약 조건으로 변환하는 Python FastAPI 서비스
+- `auth`: 인증과 보안 설정
+- `member`: 회원
 - `bookingprovider`: 예약 제공자 검색과 운영 정책
 - `bookingslot`: booking slot 조회와 잔여 수용량 관리
 - `hold`: HoldRequest, Hold 생성, Hold 만료
@@ -39,7 +41,7 @@
 - `waitlist`: 대기열 등록, 순번 조회, 승격, Promotion Hold
 - `common`: 공통 오류 응답, request id, security, time, uuid
 - `outbox`: Transactional Outbox 저장과 Relay
-- `audit`: 상태 이력과 감사 로그
+- `audit`(예정): 상태 이력과 감사 로그
 
 ## 핵심 데이터 모델
 

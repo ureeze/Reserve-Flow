@@ -10,6 +10,8 @@
 - Spring Security
   - RF-18에서는 포함하지 않는다.
   - 의존성 추가, JWT 인증, 보안 설정 구현은 RF-21에서 수행한다.
+- Spring Boot OAuth2 Resource Server (`spring-boot-starter-oauth2-resource-server`)
+- QueryDSL 5.1.0 (`com.querydsl:querydsl-jpa:5.1.0:jakarta`)
 - Spring Data JPA
   - 의존성 추가와 PostgreSQL 연결은 RF-19에서 수행한다.
 - Flyway
