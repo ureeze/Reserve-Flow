@@ -17,8 +17,6 @@ Jira 작업 시작
 → Jira: In Progress
 → feature/{JiraKey}-{short-summary} 브랜치
 → 구현 + 테스트
-→ current-state.md / tasks.md 갱신
-→ tasks.md는 Review 상태로 기록
 → 커밋
 → PR 생성
 → Jira: Review
@@ -30,9 +28,6 @@ Jira 작업 시작
 
 - **Jira를 작업 상태의 Source of Truth로 사용한다.**
 - Jira 상태는 `In Progress → Review → Done` 흐름으로 관리한다.
-- `tasks.md`는 Jira 상태를 중복 관리하기 위한 것이 아니라 **AI Agent의 작업 컨텍스트와 상세 기록**으로 사용한다.
-- PR 생성 전 `tasks.md`는 `Review`로 갱신한다.
-- PR Merge 후 `tasks.md`를 `Done`으로 바꾸기 위한 별도 커밋이나 PR은 만들지 않는다.
 - PR Merge 후 Jira가 `Done`이면 작업 완료로 판단한다.
 - 다음 작업 시작 시 Jira가 `Done`인지 확인하면 되며, 매번 GitHub PR의 Merge 여부까지 별도로 확인하지 않는다.
 - Jira와 GitHub 상태가 불일치하거나 실제 확인이 필요한 경우에만 GitHub PR 상태를 확인한다.
@@ -40,11 +35,10 @@ Jira 작업 시작
 
 ## 작업 원칙
 
-- 작업을 시작하기 전에 `memory-bank/current-state.md`를 먼저 읽는다.
-- 이어서 현재 작업과 관련된 `memory-bank` 문서를 필요한 만큼 읽는다.
-- Jira 티켓이 있는 작업은 Jira Key를 `tasks.md`와 커밋/PR 설명에 함께 남긴다.
+- 작업을 시작하기 전에 현재 작업의 Jira 티켓과 관련 `memory-bank` 문서를 필요한 만큼 읽는다.
+- Jira 티켓이 있는 작업은 Jira Key를 커밋/PR 설명에 함께 남긴다.
 - 구현 변경이 있으면 테스트 또는 검증 방법을 함께 수행한다.
-- 작업 브랜치에서 수행한 변경은 작업 종료 전 `current-state.md`와 `tasks.md`를 갱신한다.
+- 작업 브랜치에서 수행한 변경은 작업 종료 전 커밋하고 PR 생성 여부를 사용자와 확인한다.
 
 ## 실행 전 확인 원칙
 
@@ -65,12 +59,11 @@ Jira 작업 시작
 
 ## 프로젝트 시작 규칙
 
-1. `memory-bank/current-state.md`를 먼저 읽는다.
-2. 현재 작업의 Jira Key와 관련 문서를 확인한다.
-3. 필요한 경우 `project-brief.md`, `architecture.md`, `tech-stack.md`, `coding-rules.md`, `decisions.md`를 추가로 읽는다.
-4. 변경 범위, 검증 방법, 자동화 범위를 정한다.
-5. 프로젝트 상태 변경 작업이면 Git 규칙에 따라 저장소와 브랜치를 확인한다.
-6. Git 저장소가 없거나 브랜치 정리가 필요하면 Git 규칙에 따라 실행계획에 반영한다.
+1. 현재 작업의 Jira Key와 관련 문서를 확인한다.
+2. 필요한 경우 `project-brief.md`, `architecture.md`, `tech-stack.md`, `coding-rules.md`, `decisions.md`를 추가로 읽는다.
+3. 변경 범위, 검증 방법, 자동화 범위를 정한다.
+4. 프로젝트 상태 변경 작업이면 Git 규칙에 따라 저장소와 브랜치를 확인한다.
+5. Git 저장소가 없거나 브랜치 정리가 필요하면 Git 규칙에 따라 실행계획에 반영한다.
 
 ## 문서 우선순위
 
@@ -101,7 +94,14 @@ Jira 작업 시작
 - Jira 티켓 작업 브랜치는 `feature/{JiraKey}-{short-summary}` 형식을 기본으로 한다. 예: `feature/RF-18-spring-boot-bootstrap`
 - 기능 작업 완료 후 PR은 작업 브랜치에서 `main` 또는 사용자와 합의한 기본 브랜치로 보낸다.
 - 운영 긴급 수정도 Jira Key 기반 작업 브랜치로 처리한다.
-- 커밋 메시지는 Jira Key로 시작한다. 예: `RF-18 Bootstrap Spring Boot project`
+- 커밋 메시지는 개발 커밋과 PR 제목을 구분해 작성한다.
+  - 개발 커밋: `{type}({scope}): {설명}` 형식을 사용한다. 예: `feat(hold): Hold 생성 요청 API 구현`
+  - PR 제목: `{JiraKey} {설명}` 형식을 사용한다. 예: `RF-10 Hold 생성 요청 API 구현` (GitHub squash merge 시 `(#NN)` 자동 추가)
+  - 개발 커밋에는 Jira Key를 붙이지 않고, PR 제목에만 Jira Key를 단다.
+  - type 목록: `feat`, `fix`, `docs`, `ci`, `refactor`, `test`, `chore`, `build`, `style`
+  - scope 목록(도메인 모듈): `auth`, `member`, `bookingprovider`, `bookingslot`, `hold`, `reservation`, `waitlist`, `outbox`, `llm`, `common`
+  - scope 목록(메타): `docs`, `ci`, `build`, `test`
+  - PR 제목에는 Conventional prefix(`feat:` 등)를 붙이지 않는다.
 
 ## Jira 규칙
 
@@ -123,7 +123,6 @@ Jira 작업 시작
 - PR 제목과 본문에는 Jira Key, 변경 요약, 검증 결과를 포함한다.
 - PR 본문에는 후속 작업 또는 남은 위험이 있으면 함께 남긴다.
 - GitHub push와 PR 생성은 사용자가 요청하거나 실행계획에 포함되어 확인된 경우에만 수행한다.
-- PR 생성 전에는 `memory-bank/tasks.md`에서 해당 작업을 `Review` 상태로 옮기고 PR 링크와 검증 결과를 기록한다.
 - PR merge는 사용자가 GitHub UI에서 직접 수행하는 것을 기본 원칙으로 한다.
 - 에이전트는 사용자가 명시적으로 요청한 예외 상황이 아니라면 GitHub API나 CLI로 PR을 직접 merge하지 않는다.
 
@@ -169,8 +168,7 @@ Jira 작업 시작
 - [ ] 관련 테스트 또는 검증을 수행했다.
 - [ ] 프로젝트 상태 변경 작업이면 Git 저장소와 브랜치 상태를 확인했다.
 - [ ] 필요한 경우 Notion/Jira와 용어가 일치하는지 확인했다.
-- [ ] `memory-bank/current-state.md`를 갱신했다.
-- [ ] `memory-bank/tasks.md`를 갱신했다.
+- [ ] 관련 커밋을 남기고 PR 생성 여부를 사용자와 확인했다.
 
 ## 개발 우선순위
 
